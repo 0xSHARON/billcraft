@@ -1,0 +1,1663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billcraft — Modern Business Management &amp; Invoicing System</title>
+  <meta name="description" content="Billcraft is a modern, high-performance Business Management System for small to medium enterprises. Features inventory management, instant AJAX operations, CRM, automated PDF invoices, and WhatsApp integration.">
+  <meta name="theme-color" content="#10b981">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Billcraft — Premium Business Management System">
+  <meta property="og:description" content="Streamline operations, manage inventory, track sales, and generate professional PDF invoices with 1-click WhatsApp dispatch.">
+  <meta property="og:image" content="dashboard.png">
+  <meta property="og:url" content="https://0xsharon.github.io/billcraft/">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-base: #080c14;
+      --bg-surface: #0f172a;
+      --bg-card: rgba(15, 23, 42, 0.75);
+      --bg-card-hover: rgba(30, 41, 59, 0.85);
+      --bg-glass: rgba(255, 255, 255, 0.03);
+      --border-glass: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(16, 185, 129, 0.4);
+
+      --emerald: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --cyan: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --indigo: #6366f1;
+      --amber: #f59e0b;
+      --rose: #f43f5e;
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --font-ui: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-base);
+      color: var(--text-main);
+    }
+
+    body {
+      font-family: var(--font-ui);
+      background-color: var(--bg-base);
+      background-image: 
+        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.06) 0px, transparent 50%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--emerald);
+      color: #000;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-base);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--emerald);
+    }
+
+    /* NAVIGATION */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(8, 12, 20, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-glass);
+      padding: 14px 24px;
+    }
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 1.25rem;
+    }
+    .nav-brand img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 8px var(--emerald-glow));
+    }
+    .nav-brand span {
+      background: linear-gradient(135deg, #fff, #94a3b8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.15s ease;
+    }
+    .nav-link:hover {
+      color: var(--emerald);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+    .btn-emerald {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--emerald-glow);
+    }
+    .btn-emerald:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+      filter: brightness(1.08);
+    }
+    .btn-glass {
+      background: var(--bg-glass);
+      border-color: var(--border-glass);
+      color: var(--text-main);
+      backdrop-filter: blur(8px);
+    }
+    .btn-glass:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+    .btn-sm {
+      padding: 6px 12px;
+      font-size: 0.78rem;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 80px 24px 60px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 999px;
+      color: var(--emerald);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 24px;
+    }
+    .badge-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, #10b981, #06b6d4, #a7f3d0);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-desc {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 760px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 50px;
+    }
+    .metrics-ribbon {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-glass);
+    }
+    .metric-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+    .metric-item span {
+      color: var(--emerald);
+      font-size: 1.1rem;
+    }
+
+    /* SECTION */
+    .section-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 70px 24px;
+    }
+    .section-head {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .section-tag {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--emerald);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+    }
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 650px;
+      margin: 10px auto 0;
+    }
+
+    /* INTERACTIVE PRODUCT DEMO WRAPPER */
+    .demo-container {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .demo-topbar {
+      background: rgba(8, 12, 20, 0.9);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--border-glass);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .demo-dots {
+      display: flex;
+      gap: 8px;
+    }
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-r { background: #ef4444; }
+    .dot-y { background: #f59e0b; }
+    .dot-g { background: #10b981; }
+    .demo-titlebar-label {
+      font-size: 0.82rem;
+      font-family: var(--font-mono);
+      color: var(--text-dim);
+    }
+    .demo-badge-live {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--emerald);
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* DEMO TABS */
+    .demo-nav-tabs {
+      display: flex;
+      gap: 4px;
+      background: rgba(15, 23, 42, 0.9);
+      padding: 8px 16px;
+      border-bottom: 1px solid var(--border-glass);
+      overflow-x: auto;
+    }
+    .demo-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 0.86rem;
+      font-weight: 700;
+      padding: 10px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .demo-tab-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .demo-tab-btn.active {
+      color: #ffffff;
+      background: var(--emerald);
+      box-shadow: 0 2px 10px var(--emerald-glow);
+    }
+
+    /* DEMO CONTENT VIEWPORT */
+    .demo-viewport {
+      padding: 28px;
+      min-height: 480px;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.25s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* STATS CARDS IN DEMO */
+    .demo-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .demo-stat-card {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .demo-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 100%;
+      background: linear-gradient(90deg, var(--emerald), var(--cyan));
+    }
+    .stat-label-dim {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .stat-value-big {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin: 8px 0 4px;
+      color: var(--text-main);
+    }
+    .stat-diff {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--emerald);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* TABLE IN DEMO */
+    .demo-table-wrap {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      overflow-x: auto;
+    }
+    .demo-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    .demo-table th {
+      background: rgba(30, 41, 59, 0.5);
+      padding: 14px 18px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .demo-table td {
+      padding: 14px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+    }
+    .demo-table tr:last-child td {
+      border-bottom: none;
+    }
+    .demo-table tr {
+      transition: background 0.15s ease, opacity 0.3s ease;
+    }
+    .demo-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .table-fade-out {
+      opacity: 0 !important;
+      transform: translateX(20px);
+    }
+
+    /* STATUS PILLS */
+    .status-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 999px;
+      display: inline-block;
+      text-transform: uppercase;
+    }
+    .pill-green {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .pill-amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .pill-rose {
+      background: rgba(244, 63, 94, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+
+    /* INVOICE POS BUILDER */
+    .pos-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 900px) {
+      .pos-grid { grid-template-columns: 1fr; }
+    }
+    .pos-panel {
+      background: rgba(30, 41, 59, 0.4);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .pos-panel h4 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .form-group {
+      margin-bottom: 14px;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #fff;
+      font-family: var(--font-ui);
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .form-control:focus {
+      border-color: var(--emerald);
+      box-shadow: 0 0 0 2px var(--emerald-glow);
+    }
+    .pos-items-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+      margin: 16px 0;
+    }
+    .pos-items-table th {
+      color: var(--text-dim);
+      font-weight: 700;
+      padding: 8px 4px;
+      border-bottom: 1px solid var(--border-glass);
+    }
+    .pos-items-table td {
+      padding: 8px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+    .pos-totals {
+      border-top: 1px solid var(--border-glass);
+      padding-top: 14px;
+      margin-top: 14px;
+    }
+    .pos-total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .pos-total-row.grand {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-glass);
+    }
+
+    /* INVOICE PREVIEW MODAL */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .invoice-card-modal {
+      background: #ffffff;
+      color: #0f172a;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 36px;
+      font-family: var(--font-ui);
+      position: relative;
+    }
+    .inv-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      padding-bottom: 18px;
+      border-bottom: 2px solid #f1f5f9;
+    }
+    .inv-logo-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .inv-meta {
+      text-align: right;
+      font-size: 0.82rem;
+      color: #64748b;
+    }
+    .inv-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 0.85rem;
+    }
+    .inv-table th {
+      background: #f8fafc;
+      padding: 10px 12px;
+      text-align: left;
+      font-weight: 700;
+      color: #475569;
+    }
+    .inv-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: 14px;
+      padding: 28px;
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-hover);
+      box-shadow: 0 15px 35px -10px var(--emerald-glow);
+    }
+    .feature-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      background: rgba(16, 185, 129, 0.1);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: var(--emerald);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 18px;
+    }
+    .feature-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      color: var(--text-main);
+    }
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* PREVIEWS SECTION */
+    .preview-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 860px) {
+      .preview-showcase { grid-template-columns: 1fr; }
+    }
+    .preview-frame {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease;
+    }
+    .preview-frame:hover {
+      transform: scale(1.02);
+      border-color: var(--emerald);
+    }
+    .preview-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .preview-caption {
+      padding: 14px 18px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      background: rgba(15, 23, 42, 0.9);
+      border-top: 1px solid var(--border-glass);
+    }
+
+    /* QUICKSTART TERMINAL */
+    .quickstart-box {
+      background: #0b0f19;
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      padding: 24px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      position: relative;
+    }
+    .quickstart-code {
+      color: #38bdf8;
+      line-height: 1.7;
+    }
+    .quickstart-comment {
+      color: var(--text-dim);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border-glass);
+      background: #06090e;
+      padding: 60px 24px 30px;
+      margin-top: 60px;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 36px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    @media (max-width: 768px) {
+      .footer-inner { grid-template-columns: 1fr; }
+    }
+    .footer-brand-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .footer-desc {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      max-width: 440px;
+      line-height: 1.6;
+    }
+    .footer-col h4 {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .footer-col ul {
+      list-style: none;
+    }
+    .footer-col ul li {
+      margin-bottom: 8px;
+    }
+    .footer-col ul li a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.15s ease;
+    }
+    .footer-col ul li a:hover {
+      color: var(--emerald);
+    }
+    .footer-bottom {
+      max-width: 1280px;
+      margin: 20px auto 0;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP NAVIGATION -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <img src="logo.png" alt="Billcraft Logo" onerror="this.src='assets/images/logo-icon.png'">
+        <span>Billcraft</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#demo" class="nav-link">Live Demo</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#preview" class="nav-link">Screenshots</a>
+        <a href="#install" class="nav-link">Installation</a>
+        <a href="https://github.com/0xSHARON/billcraft" target="_blank" class="btn btn-glass btn-sm">
+          <span>⌘</span> GitHub
+        </a>
+        <a href="#demo" class="btn btn-emerald btn-sm">
+          Try Interactive Demo →
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <div class="hero-badge">
+      <span class="badge-pulse"></span>
+      <span>v2.4 STABLE // OPEN SOURCE BUSINESS ERP</span>
+    </div>
+
+    <h1 class="hero-title">
+      Modern Business Management &amp;<br>
+      <span>Smart PDF Invoicing</span>
+    </h1>
+
+    <p class="hero-desc">
+      Billcraft streamlines small and medium enterprise operations. Manage multi-tier inventory, track client CRM records, experience instant zero-reload AJAX operations, and dispatch professional PDF invoices with 1-click WhatsApp delivery.
+    </p>
+
+    <div class="hero-cta">
+      <a href="#demo" class="btn btn-emerald">
+        <span>🚀</span> Launch Interactive Demo
+      </a>
+      <a href="https://github.com/0xSHARON/billcraft" target="_blank" class="btn btn-glass">
+        <span>⌘</span> Star on GitHub
+      </a>
+      <a href="https://0xsharon.github.io/" target="_blank" class="btn btn-glass">
+        <span>👤</span> 0xSHARON Portfolio ↗
+      </a>
+    </div>
+
+    <!-- METRICS RIBBON -->
+    <div class="metrics-ribbon">
+      <div class="metric-item"><span>⚡</span> Instant AJAX Fade-out Operations</div>
+      <div class="metric-item"><span>📄</span> Automated PDF Invoice Engine</div>
+      <div class="metric-item"><span>💬</span> 1-Click WhatsApp Client Dispatch</div>
+      <div class="metric-item"><span>🔒</span> Prepared Statements &amp; Bcrypt Auth</div>
+    </div>
+  </header>
+
+  <!-- SECTION: INTERACTIVE LIVE DEMO -->
+  <section class="section-wrap" id="demo">
+    <div class="section-head">
+      <span class="section-tag">Hands-On Experience</span>
+      <h2 class="section-title">Interactive Product Demo</h2>
+      <p class="section-subtitle">
+        Test real Billcraft capabilities directly in your browser without local server setup. Switch modules, manage inventory, and generate a printable PDF invoice.
+      </p>
+    </div>
+
+    <div class="demo-container">
+      <!-- Top Titlebar -->
+      <div class="demo-topbar">
+        <div class="demo-dots">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+        </div>
+        <div class="demo-titlebar-label">BILLCRAFT v2.4 // SESSION: ADMIN (ID: 0xSHARON)</div>
+        <div class="demo-badge-live">
+          <span class="badge-pulse"></span> SIMULATED CLOUD ENGINE READY
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="demo-nav-tabs">
+        <button class="demo-tab-btn active" onclick="switchDemoTab('dashboard', this)">
+          <span>📊</span> Dashboard Overview
+        </button>
+        <button class="demo-tab-btn" onclick="switchDemoTab('inventory', this)">
+          <span>📦</span> Inventory Management
+        </button>
+        <button class="demo-tab-btn" onclick="switchDemoTab('pos', this)">
+          <span>📄</span> Smart Billing &amp; Invoices
+        </button>
+        <button class="demo-tab-btn" onclick="switchDemoTab('crm', this)">
+          <span>👥</span> Customers &amp; CRM
+        </button>
+        <button class="demo-tab-btn" onclick="switchDemoTab('vendors', this)">
+          <span>🚚</span> Vendors Ledger
+        </button>
+      </div>
+
+      <!-- Viewport Content -->
+      <div class="demo-viewport">
+        
+        <!-- TAB 1: DASHBOARD -->
+        <div class="tab-content active" id="tab-dashboard">
+          <div class="demo-stats-grid">
+            <div class="demo-stat-card">
+              <div class="stat-label-dim">Total Monthly Revenue</div>
+              <div class="stat-value-big">$48,250.00</div>
+              <div class="stat-diff">↑ +14.2% from last month</div>
+            </div>
+
+            <div class="demo-stat-card">
+              <div class="stat-label-dim">Total Orders Dispatched</div>
+              <div class="stat-value-big">1,248</div>
+              <div class="stat-diff">↑ +8.4% completed</div>
+            </div>
+
+            <div class="demo-stat-card">
+              <div class="stat-label-dim">Inventory SKUs Tracked</div>
+              <div class="stat-value-big">84 Items</div>
+              <div class="stat-diff" style="color:var(--amber);">⚠ 3 Items Low Stock</div>
+            </div>
+
+            <div class="demo-stat-card">
+              <div class="stat-label-dim">Active Enterprise Clients</div>
+              <div class="stat-value-big">312</div>
+              <div class="stat-diff">↑ +24 new accounts</div>
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+            <h4 style="font-size:1rem; font-weight:700;">Recent Sales &amp; Invoices</h4>
+            <span style="font-size:0.75rem; color:var(--text-dim);">Live Database Records</span>
+          </div>
+
+          <div class="demo-table-wrap">
+            <table class="demo-table">
+              <thead>
+                <tr>
+                  <th>Invoice ID</th>
+                  <th>Customer</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Payment</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code style="color:var(--emerald);">INV-2026-084</code></td>
+                  <td>Acme Logistics Corp</td>
+                  <td>Today, 10:45 AM</td>
+                  <td>$1,450.00</td>
+                  <td>Bank Transfer</td>
+                  <td><span class="status-pill pill-green">Paid</span></td>
+                </tr>
+                <tr>
+                  <td><code style="color:var(--emerald);">INV-2026-083</code></td>
+                  <td>Zenith Design Studio</td>
+                  <td>Yesterday</td>
+                  <td>$680.00</td>
+                  <td>Credit Card</td>
+                  <td><span class="status-pill pill-green">Paid</span></td>
+                </tr>
+                <tr>
+                  <td><code style="color:var(--emerald);">INV-2026-082</code></td>
+                  <td>Apex Cyber Solutions</td>
+                  <td>18 Sep 2026</td>
+                  <td>$2,890.00</td>
+                  <td>PayPal / Stripe</td>
+                  <td><span class="status-pill pill-amber">Pending</span></td>
+                </tr>
+                <tr>
+                  <td><code style="color:var(--emerald);">INV-2026-081</code></td>
+                  <td>Nova Cloud Systems</td>
+                  <td>17 Sep 2026</td>
+                  <td>$420.00</td>
+                  <td>Cash / POS</td>
+                  <td><span class="status-pill pill-green">Paid</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: INVENTORY -->
+        <div class="tab-content" id="tab-inventory">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input type="text" id="invSearch" placeholder="Search inventory SKUs..." class="form-control" style="width:240px; padding:8px 12px; font-size:0.82rem;" onkeyup="filterInventoryTable()">
+            </div>
+            <button class="btn btn-emerald btn-sm" onclick="addNewProductPrompt()">
+              <span>+</span> Add New Product
+            </button>
+          </div>
+
+          <div class="demo-table-wrap">
+            <table class="demo-table" id="inventoryTable">
+              <thead>
+                <tr>
+                  <th>Product SKU</th>
+                  <th>Name &amp; Details</th>
+                  <th>Category</th>
+                  <th>Stock Count</th>
+                  <th>Unit Price</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="inventoryTableBody">
+                <tr id="prod-row-1">
+                  <td><code>SKU-1001</code></td>
+                  <td><strong>Industrial Fiber Router</strong></td>
+                  <td>Networking</td>
+                  <td>42 units</td>
+                  <td>$280.00</td>
+                  <td><span class="status-pill pill-green">In Stock</span></td>
+                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-1', 'Industrial Fiber Router')">Delete (AJAX)</button></td>
+                </tr>
+                <tr id="prod-row-2">
+                  <td><code>SKU-1002</code></td>
+                  <td><strong>Cat6e Shielded Cable (305m)</strong></td>
+                  <td>Cabling</td>
+                  <td>8 reels</td>
+                  <td>$120.00</td>
+                  <td><span class="status-pill pill-amber">Low Stock</span></td>
+                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-2', 'Cat6e Cable')">Delete (AJAX)</button></td>
+                </tr>
+                <tr id="prod-row-3">
+                  <td><code>SKU-1003</code></td>
+                  <td><strong>Thermal Receipt Printer Pro</strong></td>
+                  <td>POS Hardware</td>
+                  <td>26 units</td>
+                  <td>$195.00</td>
+                  <td><span class="status-pill pill-green">In Stock</span></td>
+                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-3', 'Thermal Printer')">Delete (AJAX)</button></td>
+                </tr>
+                <tr id="prod-row-4">
+                  <td><code>SKU-1004</code></td>
+                  <td><strong>Smart Barcode Scanner Wireless</strong></td>
+                  <td>POS Hardware</td>
+                  <td>0 units</td>
+                  <td>$85.00</td>
+                  <td><span class="status-pill pill-rose">Out of Stock</span></td>
+                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-4', 'Barcode Scanner')">Delete (AJAX)</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size:0.75rem; color:var(--text-dim); margin-top:10px;">
+            💡 <strong>Instant AJAX Demo:</strong> Click "Delete (AJAX)" on any row to watch seamless zero-page-reload deletion animation with instant live database response.
+          </p>
+        </div>
+
+        <!-- TAB 3: POS BILLING & INVOICES -->
+        <div class="tab-content" id="tab-pos">
+          <div class="pos-grid">
+            <!-- Left: Order Items Builder -->
+            <div class="pos-panel">
+              <h4><span>🛒</span> Create New Invoice</h4>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Customer Name</label>
+                  <input type="text" class="form-control" id="posCustName" value="John Doe Enterprises">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Customer Mobile (for WhatsApp)</label>
+                  <input type="text" class="form-control" id="posCustPhone" value="+919876543210">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Add Product Item</label>
+                  <select class="form-control" id="posProductSelect">
+                    <option value="Thermal Receipt Printer Pro|195">Thermal Receipt Printer Pro ($195)</option>
+                    <option value="Industrial Fiber Router|280">Industrial Fiber Router ($280)</option>
+                    <option value="Cat6e Shielded Cable (305m)|120">Cat6e Shielded Cable ($120)</option>
+                    <option value="Cloud Maintenance Retainer|450">Cloud Maintenance Retainer ($450)</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Quantity</label>
+                  <input type="number" class="form-control" id="posQty" value="1" min="1" max="100">
+                </div>
+              </div>
+
+              <button class="btn btn-glass btn-sm" onclick="addItemToInvoice()" style="margin-bottom:16px;">
+                <span>+</span> Add Item to Bill
+              </button>
+
+              <table class="pos-items-table">
+                <thead>
+                  <tr>
+                    <th>Item Description</th>
+                    <th>Qty</th>
+                    <th>Rate</th>
+                    <th>Amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="posItemsBody">
+                  <tr>
+                    <td>Thermal Receipt Printer Pro</td>
+                    <td>1</td>
+                    <td>$195.00</td>
+                    <td>$195.00</td>
+                    <td><button onclick="removePosItem(this, 195)" style="background:none; border:none; color:var(--rose); cursor:pointer;">×</button></td>
+                  </tr>
+                  <tr>
+                    <td>Cat6e Shielded Cable (305m)</td>
+                    <td>2</td>
+                    <td>$120.00</td>
+                    <td>$240.00</td>
+                    <td><button onclick="removePosItem(this, 240)" style="background:none; border:none; color:var(--rose); cursor:pointer;">×</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Right: Calculation & Dispatch Summary -->
+            <div class="pos-panel">
+              <h4><span>📄</span> Invoice Summary</h4>
+              <div class="form-group">
+                <label class="form-label">Invoice Number</label>
+                <input type="text" class="form-control" id="posInvNum" value="INV-2026-085" readonly style="font-family:var(--font-mono); color:var(--emerald);">
+              </div>
+
+              <div class="pos-totals">
+                <div class="pos-total-row">
+                  <span>Subtotal:</span>
+                  <span id="posSubtotal">$435.00</span>
+                </div>
+                <div class="pos-total-row">
+                  <span>Tax (18% GST / VAT):</span>
+                  <span id="posTax">$78.30</span>
+                </div>
+                <div class="pos-total-row grand">
+                  <span>Grand Total:</span>
+                  <span id="posGrandTotal" style="color:var(--emerald);">$513.30</span>
+                </div>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
+                <button class="btn btn-emerald" onclick="openInvoicePreviewModal()" style="justify-content:center;">
+                  <span>🖨️</span> Generate Printable PDF Invoice
+                </button>
+                <button class="btn btn-glass" onclick="dispatchWhatsAppInvoice()" style="justify-content:center; border-color:#25d366; color:#25d366;">
+                  <span>💬</span> Send Direct via WhatsApp
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: CUSTOMERS & CRM -->
+        <div class="tab-content" id="tab-crm">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <h4>Client Accounts &amp; Ledger</h4>
+            <button class="btn btn-emerald btn-sm" onclick="alert('Client account modal simulated: Ready to insert new record via prepared MySQL statements.')">
+              <span>+</span> New Client
+            </button>
+          </div>
+
+          <div class="demo-table-wrap">
+            <table class="demo-table">
+              <thead>
+                <tr>
+                  <th>Client ID</th>
+                  <th>Company / Client</th>
+                  <th>Contact Email</th>
+                  <th>Phone Number</th>
+                  <th>Total Orders</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>CUST-01</code></td>
+                  <td><strong>Acme Logistics Corp</strong></td>
+                  <td>billing@acmelogistics.com</td>
+                  <td>+1 555-0192</td>
+                  <td>24 Invoices</td>
+                  <td><span class="status-pill pill-green">Active</span></td>
+                </tr>
+                <tr>
+                  <td><code>CUST-02</code></td>
+                  <td><strong>Zenith Design Studio</strong></td>
+                  <td>accounts@zenithstudio.io</td>
+                  <td>+1 555-4820</td>
+                  <td>12 Invoices</td>
+                  <td><span class="status-pill pill-green">Active</span></td>
+                </tr>
+                <tr>
+                  <td><code>CUST-03</code></td>
+                  <td><strong>Apex Cyber Solutions</strong></td>
+                  <td>security@apexcyber.net</td>
+                  <td>+91 9876543210</td>
+                  <td>18 Invoices</td>
+                  <td><span class="status-pill pill-green">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 5: VENDORS -->
+        <div class="tab-content" id="tab-vendors">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+            <h4>Authorized Supply Chain Vendors</h4>
+            <button class="btn btn-emerald btn-sm" onclick="alert('Vendor registration modal: Register suppliers with GSTIN, terms, and payment cycles.')">
+              <span>+</span> Register Vendor
+            </button>
+          </div>
+
+          <div class="demo-table-wrap">
+            <table class="demo-table">
+              <thead>
+                <tr>
+                  <th>Vendor ID</th>
+                  <th>Supplier Name</th>
+                  <th>Category</th>
+                  <th>Outstanding Balance</th>
+                  <th>Last Restock</th>
+                  <th>Payment Term</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>VEND-101</code></td>
+                  <td>Global Microchip Hardware Ltd</td>
+                  <td>Electronics &amp; POS</td>
+                  <td>$4,200.00</td>
+                  <td>12 Sep 2026</td>
+                  <td>Net 30</td>
+                </tr>
+                <tr>
+                  <td><code>VEND-102</code></td>
+                  <td>Pacific Paper &amp; Packaging Inc</td>
+                  <td>Thermal Rolls / Consumables</td>
+                  <td>$320.00</td>
+                  <td>15 Sep 2026</td>
+                  <td>Net 15</td>
+                </tr>
+                <tr>
+                  <td><code>VEND-103</code></td>
+                  <td>OmniConnect Cables Distribution</td>
+                  <td>Networking Hardware</td>
+                  <td>$0.00</td>
+                  <td>08 Sep 2026</td>
+                  <td>Prepaid</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: CORE FEATURES -->
+  <section class="section-wrap" id="features">
+    <div class="section-head">
+      <span class="section-tag">Enterprise Capabilities</span>
+      <h2 class="section-title">Built for Real-World Speed</h2>
+      <p class="section-subtitle">
+        Engineered with a laser focus on productivity: zero-overhead PHP 8 architecture, responsive micro-animations, and instant operations.
+      </p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Feature 1 -->
+      <div class="feature-card">
+        <div class="feature-icon-box">⚡</div>
+        <h3 class="feature-title">Instant AJAX Operations</h3>
+        <p class="feature-desc">
+          Zero page reloads when managing critical records. Deleting customers, archiving products, or updating inventory triggers smooth fade-out animations with instant database synchronisation.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card">
+        <div class="feature-icon-box">📄</div>
+        <h3 class="feature-title">Automated PDF Invoicing</h3>
+        <p class="feature-desc">
+          Generate clean, professional print-ready invoices instantaneously after every transaction. Formatted with customizable tax breakdowns, company headers, and digital signatures.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card">
+        <div class="feature-icon-box">💬</div>
+        <h3 class="feature-title">1-Click WhatsApp Delivery</h3>
+        <p class="feature-desc">
+          Direct WhatsApp Business API integration allows one-click dispatch of invoice receipts and payment reminder summaries directly to customer handsets.
+        </p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card">
+        <div class="feature-icon-box">📦</div>
+        <h3 class="feature-title">Smart Inventory &amp; Stock Alerts</h3>
+        <p class="feature-desc">
+          Track products across multiple warehouses with dynamic stock threshold monitoring. Visual color-coded alerts flag low stock before sales bottlenecks occur.
+        </p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card">
+        <div class="feature-icon-box">👥</div>
+        <h3 class="feature-title">Integrated CRM &amp; Vendors</h3>
+        <p class="feature-desc">
+          Maintain full ledgers for both buyers and suppliers. Monitor accounts receivable, purchase orders, customer transaction histories, and supplier payment terms.
+        </p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card">
+        <div class="feature-icon-box">🔒</div>
+        <h3 class="feature-title">Hardened Security Architecture</h3>
+        <p class="feature-desc">
+          All SQL database transactions utilize Prepared Statements (PDO/MySQLi) preventing injection attacks. Administrative authentication is guarded by Bcrypt password hashing.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: SCREENSHOTS -->
+  <section class="section-wrap" id="preview">
+    <div class="section-head">
+      <span class="section-tag">Visual Verification</span>
+      <h2 class="section-title">Production Interface</h2>
+      <p class="section-subtitle">
+        Actual screenshots captured directly from the live Billcraft installation.
+      </p>
+    </div>
+
+    <div class="preview-showcase">
+      <div class="preview-frame">
+        <img src="dashboard.png" alt="Billcraft Dashboard Overview" onerror="this.parentElement.innerHTML='<div style=\'padding:40px; text-align:center; color:var(--text-dim);\'>[dashboard.png image preview]</div>'">
+        <div class="preview-caption">Executive Dashboard: Real-Time Analytics &amp; Revenue Gauges</div>
+      </div>
+
+      <div class="preview-frame">
+        <img src="products.png" alt="Billcraft Product Inventory Management" onerror="this.parentElement.innerHTML='<div style=\'padding:40px; text-align:center; color:var(--text-dim);\'>[products.png image preview]</div>'">
+        <div class="preview-caption">Products Management: Real-Time Stock Status &amp; Instant AJAX Controls</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: INSTALLATION -->
+  <section class="section-wrap" id="install">
+    <div class="section-head">
+      <span class="section-tag">Deploy Locally</span>
+      <h2 class="section-title">Get Up and Running in 2 Minutes</h2>
+      <p class="section-subtitle">
+        Self-host Billcraft on any standard LAMP/WAMP/XAMPP stack or Linux VPS.
+      </p>
+    </div>
+
+    <div class="quickstart-box">
+      <div class="quickstart-comment"># 1. Clone the repository into your web root (htdocs or /var/www/html)</div>
+      <div class="quickstart-code">git clone https://github.com/0xSHARON/billcraft.git</div>
+      <div class="quickstart-code">cd billcraft</div>
+      <br>
+      <div class="quickstart-comment"># 2. Create the database and import schema</div>
+      <div class="quickstart-code">mysql -u root -p -e "CREATE DATABASE billcraft;"</div>
+      <div class="quickstart-code">mysql -u root -p billcraft &lt; billcraft.sql</div>
+      <br>
+      <div class="quickstart-comment"># 3. Configure your database credentials in connection.php</div>
+      <div class="quickstart-code">$con = mysqli_connect("localhost", "your_user", "your_password", "billcraft");</div>
+      <br>
+      <div class="quickstart-comment"># 4. Open in browser at http://localhost/billcraft</div>
+      <div class="quickstart-comment"># Default Admin Login: Username: admin | Password: admin</div>
+    </div>
+  </section>
+
+  <!-- PRINTABLE INVOICE MODAL -->
+  <div class="modal-backdrop" id="invoiceModalBackdrop">
+    <div class="invoice-card-modal">
+      <div class="inv-head">
+        <div>
+          <div class="inv-logo-title">💎 BILLCRAFT ENTERPRISES</div>
+          <div style="font-size:0.8rem; color:#64748b;">Premium Invoicing &amp; Operations</div>
+          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">Maharashtra, India • support@billcraft.local</div>
+        </div>
+        <div class="inv-meta">
+          <div style="font-size:1.1rem; font-weight:800; color:#0f172a;" id="modalInvNumber">INV-2026-085</div>
+          <div>Date: <span id="modalInvDate">20 Sep 2026</span></div>
+          <div>Status: <strong style="color:#10b981;">PAID IN FULL</strong></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:16px; font-size:0.82rem; color:#334155;">
+        <strong>BILLED TO:</strong><br>
+        <span id="modalCustName" style="font-size:1rem; font-weight:700; color:#0f172a;">John Doe Enterprises</span><br>
+        Contact: <span id="modalCustPhone">+91 9876543210</span>
+      </div>
+
+      <table class="inv-table">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th style="text-align:right;">Amount</th>
+          </tr>
+        </thead>
+        <tbody id="modalItemsBody">
+          <tr>
+            <td>Thermal Receipt Printer Pro (x1)</td>
+            <td style="text-align:right;">$195.00</td>
+          </tr>
+          <tr>
+            <td>Cat6e Shielded Cable 305m (x2)</td>
+            <td style="text-align:right;">$240.00</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="text-align:right; font-size:0.9rem; margin-top:16px;">
+        <div>Subtotal: <strong id="modalSubtotal">$435.00</strong></div>
+        <div>Tax (18%): <strong id="modalTax">$78.30</strong></div>
+        <div style="font-size:1.3rem; font-weight:800; color:#0f172a; margin-top:8px;">
+          Total: <span id="modalGrandTotal" style="color:#059669;">$513.30</span>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:28px; padding-top:16px; border-top:1px solid #f1f5f9;">
+        <button class="btn btn-glass" onclick="closeInvoiceModal()" style="color:#0f172a; border-color:#cbd5e1;">Close</button>
+        <button class="btn btn-emerald" onclick="window.print()">🖨️ Print / Save as PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-title">
+          <img src="logo.png" width="28" alt="" onerror="this.style.display='none'">
+          <span>Billcraft</span>
+        </div>
+        <p class="footer-desc">
+          Modern Business Management System designed for small-to-medium businesses. Open-source under MIT license.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#demo">Interactive Demo</a></li>
+          <li><a href="#features">Key Features</a></li>
+          <li><a href="#preview">Interface Previews</a></li>
+          <li><a href="#install">Setup Guide</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Project Links</h4>
+        <ul>
+          <li><a href="https://github.com/0xSHARON/billcraft" target="_blank">GitHub Repository</a></li>
+          <li><a href="https://0xsharon.github.io/" target="_blank">0xSHARON Portfolio</a></li>
+          <li><a href="https://0xsharon.github.io/cybermanagement" target="_blank">Cybermanagement Book</a></li>
+          <li><a href="https://0xsharon.github.io/sharzo/" target="_blank">SHARZO Android HUD</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 Billcraft // Developed by <a href="https://github.com/0xSHARON" target="_blank" style="color:var(--emerald); text-decoration:none; font-weight:700;">0xSHARON</a>. Released under MIT License.</div>
+      <div>OFFICIAL GITHUB PAGES PRODUCT DEMO</div>
+    </div>
+  </footer>
+
+  <!-- CLIENT-SIDE LOGIC -->
+  <script>
+    // TAB SWITCHER
+    function switchDemoTab(tabId, btn) {
+      document.querySelectorAll('.demo-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // SIMULATED AJAX DELETE WITH FADE OUT
+    function simulateAjaxDelete(rowId, name) {
+      const row = document.getElementById(rowId);
+      if (!row) return;
+      if (confirm(`Simulate AJAX Delete: Remove "${name}" without page reload?`)) {
+        row.classList.add('table-fade-out');
+        setTimeout(() => {
+          row.remove();
+        }, 300);
+      }
+    }
+
+    // SEARCH INVENTORY
+    function filterInventoryTable() {
+      const q = document.getElementById('invSearch').value.toLowerCase();
+      const rows = document.querySelectorAll('#inventoryTableBody tr');
+      rows.forEach(r => {
+        const text = r.textContent.toLowerCase();
+        r.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    // ADD NEW PRODUCT PROMPT
+    function addNewProductPrompt() {
+      const name = prompt("Enter Product Name:", "Gigabit Ethernet Switch 8-Port");
+      if (!name) return;
+      const price = prompt("Enter Unit Price ($):", "65.00") || "65.00";
+      const sku = 'SKU-' + Math.floor(1000 + Math.random() * 9000);
+
+      const tbody = document.getElementById('inventoryTableBody');
+      const tr = document.createElement('tr');
+      const rowId = 'prod-row-' + Date.now();
+      tr.id = rowId;
+      tr.innerHTML = `
+        <td><code>${sku}</code></td>
+        <td><strong>${name}</strong></td>
+        <td>Hardware</td>
+        <td>15 units</td>
+        <td>$${parseFloat(price).toFixed(2)}</td>
+        <td><span class="status-pill pill-green">In Stock</span></td>
+        <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('${rowId}', '${name}')">Delete (AJAX)</button></td>
+      `;
+      tbody.prepend(tr);
+    }
+
+    // POS STATE & CALCULATIONS
+    let currentSubtotal = 435.00;
+
+    function addItemToInvoice() {
+      const select = document.getElementById('posProductSelect');
+      const [name, priceStr] = select.value.split('|');
+      const price = parseFloat(priceStr);
+      const qty = parseInt(document.getElementById('posQty').value) || 1;
+      const amount = price * qty;
+
+      const tbody = document.getElementById('posItemsBody');
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${name}</td>
+        <td>${qty}</td>
+        <td>$${price.toFixed(2)}</td>
+        <td>$${amount.toFixed(2)}</td>
+        <td><button onclick="removePosItem(this, ${amount})" style="background:none; border:none; color:var(--rose); cursor:pointer;">×</button></td>
+      `;
+      tbody.appendChild(tr);
+
+      currentSubtotal += amount;
+      recalculateTotals();
+    }
+
+    function removePosItem(btn, amount) {
+      btn.closest('tr').remove();
+      currentSubtotal = Math.max(0, currentSubtotal - amount);
+      recalculateTotals();
+    }
+
+    function recalculateTotals() {
+      const tax = currentSubtotal * 0.18;
+      const grand = currentSubtotal + tax;
+
+      document.getElementById('posSubtotal').textContent = '$' + currentSubtotal.toFixed(2);
+      document.getElementById('posTax').textContent = '$' + tax.toFixed(2);
+      document.getElementById('posGrandTotal').textContent = '$' + grand.toFixed(2);
+    }
+
+    // INVOICE PREVIEW MODAL
+    function openInvoicePreviewModal() {
+      const cust = document.getElementById('posCustName').value || 'Valued Customer';
+      const phone = document.getElementById('posCustPhone').value || 'N/A';
+      const invNum = document.getElementById('posInvNum').value;
+
+      document.getElementById('modalCustName').textContent = cust;
+      document.getElementById('modalCustPhone').textContent = phone;
+      document.getElementById('modalInvNumber').textContent = invNum;
+
+      document.getElementById('modalSubtotal').textContent = document.getElementById('posSubtotal').textContent;
+      document.getElementById('modalTax').textContent = document.getElementById('posTax').textContent;
+      document.getElementById('modalGrandTotal').textContent = document.getElementById('posGrandTotal').textContent;
+
+      // Copy items
+      const modalBody = document.getElementById('modalItemsBody');
+      modalBody.innerHTML = '';
+      document.querySelectorAll('#posItemsBody tr').forEach(r => {
+        const cols = r.querySelectorAll('td');
+        if (cols.length >= 4) {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${cols[0].textContent} (x${cols[1].textContent})</td>
+            <td style="text-align:right;">${cols[3].textContent}</td>
+          `;
+          modalBody.appendChild(row);
+        }
+      });
+
+      document.getElementById('invoiceModalBackdrop').classList.add('active');
+    }
+
+    function closeInvoiceModal() {
+      document.getElementById('invoiceModalBackdrop').classList.remove('active');
+    }
+    document.getElementById('invoiceModalBackdrop').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('invoiceModalBackdrop')) {
+        closeInvoiceModal();
+      }
+    });
+
+    // WHATSAPP DISPATCH SIMULATOR
+    function dispatchWhatsAppInvoice() {
+      const phone = document.getElementById('posCustPhone').value.replace(/[^0-9]/g, '');
+      const cust = document.getElementById('posCustName').value;
+      const invNum = document.getElementById('posInvNum').value;
+      const total = document.getElementById('posGrandTotal').textContent;
+
+      const message = encodeURIComponent(`Hello ${cust},\nYour invoice ${invNum} for ${total} has been generated by Billcraft.\nThank you for your business!`);
+      const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
+
+      window.open(waUrl, '_blank');
+    }
+  </script>
+</body>
+</html>
