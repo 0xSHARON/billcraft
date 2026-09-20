@@ -1,112 +1,174 @@
 <div align="center">
-  <img src="/logo.png" width="120" alt="Billcraft Logo">
-  <h1>💎 Billcraft - Premium Business Management System</h1>
+  <a href="https://0xsharon.github.io/billcraft/">
+    <img src="logo.png" width="120" alt="Billcraft Logo">
+  </a>
+  <h1>💎 Billcraft — Modern Business Management &amp; Invoicing System</h1>
+  <p><strong>High-performance, glassmorphic ERP, Inventory, CRM, and POS Invoicing Suite built for modern enterprises.</strong></p>
+
+  <p>
+    <a href="https://0xsharon.github.io/billcraft/"><img src="https://img.shields.io/badge/⚡_Live_Demo-GitHub_Pages-6366f1?style=for-the-badge&logo=github&logoColor=white" alt="Live Demo"></a>
+    <a href="https://github.com/0xSHARON/billcraft/stargazers"><img src="https://img.shields.io/github/stars/0xSHARON/billcraft?style=for-the-badge&color=f59e0b" alt="GitHub Stars"></a>
+    <a href="https://www.php.net/"><img src="https://img.shields.io/badge/PHP-8.0%2B-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP Version"></a>
+    <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"></a>
+    <a href="LICENSE.md"><img src="https://img.shields.io/badge/License-MIT-10b981?style=for-the-badge" alt="License MIT"></a>
+  </p>
 </div>
 
-[![GitHub Stars](https://img.shields.io/github/stars/0xSHARON/billcraft?style=for-the-badge)](https://github.com/0xSHARON/billcraft)
-[![PHP Version](https://img.shields.io/badge/PHP-8.0%2B-777BB4?style=for-the-badge&logo=php)](https://www.php.net/)
-[![License](https://img.shields.io/badge/License-MIT-success?style=for-the-badge)](LICENSE)
+---
 
-**Billcraft** is a modern, high-performance Business Management System designed for small to medium enterprises. It streamlines operations, manages inventory, tracks sales, and generates professional PDF invoices with a premium, glassmorphic user interface.
+> 🚀 **Experience Billcraft in Your Browser Right Now:**
+> 
+> A complete, 1-to-1 interactive client-side simulation is hosted live on GitHub Pages with zero setup or database required:  
+> 👉 **[https://0xsharon.github.io/billcraft/](https://0xsharon.github.io/billcraft/)**
+
+---
+
+## 📌 Overview
+
+**Billcraft** is an enterprise-ready, full-featured Business Management and Point-of-Sale (POS) System developed by [Sharon Babu (0xSHARON)](https://github.com/0xSHARON). Designed for small to medium businesses, retail outlets, and technical service providers, Billcraft combines a modern glassmorphic dashboard with instant zero-reload AJAX operations, robust inventory stock alerts, customer CRM, vendor ledgers, and automated print-ready invoices with 1-click WhatsApp dispatch.
 
 ---
 
 ## ✨ Key Features
 
-- **🚀 Instant AJAX Operations**: Experience seamless data management. Deleting records (Customers, Products, Vendors) is instant with smooth fade-out animations and zero page reloads.
-- **🎨 Premium Glassmorphic UI**: A state-of-the-art interface featuring vibrant gradients, dark mode support, and micro-animations for a "Wow" factor.
-- **📦 Inventory Management**: Track products, stock levels, and categories with real-time stock status indicators (Low Stock/Out of Stock).
-- **👥 CRM & Vendor Management**: Efficiently manage your customer base and supply chain with dedicated modules.
-- **📄 Professional Invoicing**: Generate clean, professional PDF-ready invoices instantly after every sale.
-- **💬 WhatsApp Integration**: Send invoices directly to customers via WhatsApp with a single click.
-- **📈 Advanced Dashboard**: A bird's-eye view of your business health with real-time statistics and revenue charts.
+- **⚡ Instant Zero-Reload AJAX Engine**: Perform lightning-fast mutations. Record updates and deletions across Customers, Products, and Vendors occur seamlessly in real-time with smooth CSS fade-out animations.
+- **🎨 State-of-the-Art Glassmorphism UI**: Engineered using CSS design tokens with adaptive Dark and Light mode themes, frosted glass translucency, micro-animations, and responsive layout scaling.
+- **🛒 Point-of-Sale (POS) & Live Cart**: Interactive cashier screen with real-time multi-product selection, dynamic subtotal, GST/tax calculation, and automated stock validation.
+- **🧾 Instant PDF & Printable Invoices**: Generates clean, professional, print-ready invoices (`INV-3-2-1` format) complete with company branding, tax itemization, and customer details.
+- **💬 1-Click WhatsApp Invoice Dispatch**: Directly generate pre-formatted WhatsApp payment reminders and invoice links for instant client communication.
+- **📦 Multi-Tier Inventory Management**: Real-time stock status monitoring with threshold indicators (`Low Stock < 10` warning badges, `Out of Stock` blockers, and live stock progress bars).
+- **👥 Customer Relationship Management (CRM)**: Track customer order history, aggregate spending, and contact information with 1-click order initiation.
+- **🚚 Vendor & Supply Chain Ledger**: Maintain active supplier catalogs, contact persons, and categorical procurement logs.
+- **📊 Financial Analytics & Reports**: High-level KPI summary cards for Revenue, Gross Margins, Receivable collection rates, and category distribution.
+- **🔒 Hardened Backend Architecture**: Built with prepared PDO / MySQLi statements to eliminate SQL injection vulnerabilities and Bcrypt cryptographic hashing for session protection.
+
+---
+
+## 📸 Interface Preview
+
+<div align="center">
+  <p><strong>Light Theme Dashboard &amp; KPI Overview:</strong></p>
+  <img src="dashboard.png" width="95%" alt="Billcraft Dashboard Overview" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);">
+  <br><br>
+  <p><strong>Dark Theme Products &amp; Inventory Management:</strong></p>
+  <img src="products.png" width="95%" alt="Billcraft Products Management" style="border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.3);">
+</div>
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Frontend**: HTML5, CSS3 (Vanilla), JavaScript (ES6+), jQuery
-- **Backend**: PHP 8.0+
-- **Database**: MySQL / MariaDB
-- **Styling**: Custom CSS (Glassmorphism), FontAwesome 6, Google Fonts (Plus Jakarta Sans)
-- **Security**: Prepared Statements (PDO/MySQLi), Password Hashing (Bcrypt)
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | HTML5, Modern CSS3 (Glassmorphism design tokens), JavaScript (ES6+), jQuery |
+| **Typography &amp; Icons** | Plus Jakarta Sans, JetBrains Mono, FontAwesome 6.4.0 Pro Icons |
+| **Backend** | PHP 8.0 / PHP 8.2 (Modular procedural architecture) |
+| **Database** | MySQL 8.0+ / MariaDB (InnoDB engine with relational integrity) |
+| **Security** | Parameterized Prepared Statements, Bcrypt Password Hashing, Session Guards |
+| **Live Showcase** | GitHub Pages Static Client-Side Engine (`index.html` + `.nojekyll`) |
 
 ---
 
-## 📸 Preview
+## 🌐 Live Demo & Interactive Sandbox
 
-<div align="center">
-  <img src="/dashboard.png" width="45%" alt="Dashboard">
-  <img src="/products.png" width="45%" alt="Products Management">
-</div>
+You can test every module of Billcraft immediately without installing PHP or MySQL:
+
+1. Visit **[https://0xsharon.github.io/billcraft/](https://0xsharon.github.io/billcraft/)**
+2. **Dashboard**: Inspect real-time KPI metrics and recent transactions.
+3. **Products**: Try live search filtering, test category chips, add a new item via modal, or delete a product to observe the AJAX fade-out animation.
+4. **Sell (POS)**: Check items in the catalog to see real-time subtotal, 18% GST, and Grand Total updates.
+5. **Invoicing**: Click **"Generate Bill & Invoice"** to open the print-ready invoice dialog with 1-click WhatsApp messaging.
+6. **Dark / Light Toggle**: Click the sun/moon icon in the topbar to test theme switching.
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Local Installation & Setup
+
+If you want to run the full PHP + MySQL backend locally on your web server:
 
 ### Prerequisites
 
-- PHP 8.0 or higher
-- MySQL Server
-- Web Server (Apache/Nginx)
+- **PHP 8.0** or higher
+- **MySQL 5.7+ / 8.0+** or MariaDB
+- Web server such as **Apache**, **Nginx**, **XAMPP**, or **Laragon**
 
-### Installation
+### Step-by-Step Instructions
 
-1. **Clone the Repository**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/0xSHARON/billcraft.git
    cd billcraft
    ```
 
-2. **Setup Database**
-   - Create a database named `billcraft` (or as specified in `billcraft.sql`).
-   - Import the `billcraft.sql` file into your MySQL server.
+2. **Database Import**
+   - Open your MySQL administration tool (e.g. phpMyAdmin, MySQL Workbench, or CLI).
+   - Create a database named `billcraft`:
+     ```sql
+     CREATE DATABASE billcraft CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+     ```
+   - Import the schema and seed data from `billcraft.sql`:
+     ```bash
+     mysql -u root -p billcraft < billcraft.sql
+     ```
 
-3. **Configure Connection**
-   - Open `connection.php` and update your database credentials:
-   ```php
-   $con = mysqli_connect("localhost", "your_username", "your_password", "billcraft");
-   ```
+3. **Configure Database Credentials**
+   - Open `connection.php` and verify/update your credentials:
+     ```php
+     <?php
+     $con = mysqli_connect("localhost", "your_username", "your_password", "billcraft");
+     if (mysqli_connect_errno()) {
+         die("Database Connection Failed: " . mysqli_connect_error());
+     }
+     ?>
+     ```
 
-4. **Run Application**
-   - Move the project to your web server root (e.g., `htdocs` or `var/www/html`).
-   - Access via `http://localhost/billcraft`
+4. **Launch Local Server**
+   - If using XAMPP/WampServer, move the folder into your `htdocs` or `www` directory.
+   - Alternatively, use PHP's built-in development server:
+     ```bash
+     php -S localhost:8000
+     ```
+   - Access the application in your browser at `http://localhost:8000`.
 
 ---
 
-## 🔑 Default Admin Login
+## 🔑 Default Credentials
 
-| Field     | Value   |
-|----------|--------|
-| Username | admin  |
-| Password | admin  |
+| Role | Username | Password |
+| :--- | :--- | :--- |
+| **Administrator** | `admin` | `admin` |
 
-> ⚠️ **Security Notice:** Please change the default credentials after first login to prevent unauthorized access.
+> ⚠️ **Important Security Notice:** Always update the default password immediately upon production deployment via the Settings module.
 
-## 🔒 Security Note
+---
 
-All database interactions use **Prepared Statements** to prevent SQL injection. Authentication is handled via secure session management and Bcrypt password hashing.
+## 🔒 Security Practices
+
+- **Zero SQL Injection**: All queries receiving user input use parameterized prepared statements (`$stmt = $con->prepare(...)`).
+- **Cryptographic Protection**: Passwords are saved with standard Bcrypt algorithms (`password_hash` & `password_verify`).
+- **Sanitized Outputs**: HTML special characters are escaped to prevent Cross-Site Scripting (XSS).
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are what make the open-source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Contributions, bug reports, and feature proposals are welcome!
 
 1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
+2. Create your Feature Branch (`git checkout -b feature/NewFeature`)
+3. Commit your Changes (`git commit -m 'feat: add NewFeature'`)
+4. Push to the Branch (`git push origin feature/NewFeature`)
 5. Open a Pull Request
 
 ---
 
 ## 📄 License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+This project is licensed under the MIT License — see the [LICENSE.md](LICENSE.md) file for details.
 
 ---
 
 <div align="center">
-  Made with ❤️ by <a href="https://github.com/0xSHARON/">0xSHARON</a>
+  Crafted by <a href="https://github.com/0xSHARON"><strong>Sharon Babu (0xSHARON)</strong></a><br>
+  Explore more projects at <a href="https://0xsharon.github.io/">0xsharon.github.io</a>
 </div>
