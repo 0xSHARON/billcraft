@@ -2,1662 +2,2953 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Billcraft — Modern Business Management &amp; Invoicing System</title>
-  <meta name="description" content="Billcraft is a modern, high-performance Business Management System for small to medium enterprises. Features inventory management, instant AJAX operations, CRM, automated PDF invoices, and WhatsApp integration.">
-  <meta name="theme-color" content="#10b981">
+  <meta name="description" content="Billcraft is a modern, high-performance Business Management System. Live interactive demo featuring dashboard KPIs, inventory management, POS billing, automated PDF invoicing, and WhatsApp dispatch.">
+  <meta name="author" content="0xSHARON">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Billcraft — Premium Business Management System">
-  <meta property="og:description" content="Streamline operations, manage inventory, track sales, and generate professional PDF invoices with 1-click WhatsApp dispatch.">
-  <meta property="og:image" content="dashboard.png">
-  <meta property="og:url" content="https://0xsharon.github.io/billcraft/">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="logo.png">
 
+  <!-- Google Fonts: Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6.4.0 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    /* ══════════════════════════════════════
+       DESIGN TOKENS (From includes/header.php)
+    ══════════════════════════════════════ */
     :root {
-      --bg-base: #080c14;
-      --bg-surface: #0f172a;
-      --bg-card: rgba(15, 23, 42, 0.75);
-      --bg-card-hover: rgba(30, 41, 59, 0.85);
-      --bg-glass: rgba(255, 255, 255, 0.03);
-      --border-glass: rgba(255, 255, 255, 0.08);
-      --border-hover: rgba(16, 185, 129, 0.4);
+      --primary:      hsl(248, 85%, 65%);
+      --primary-h:    248;
+      --primary-raw:  248, 85%, 65%;
+      --primary-glow: hsla(248, 85%, 65%, 0.3);
+      --accent:       hsl(280, 80%, 68%);
+      --success:      hsl(142, 71%, 45%);
+      --warning:      hsl(38, 92%, 50%);
+      --danger:       hsl(0, 84%, 60%);
+      --info:         hsl(199, 89%, 48%);
 
-      --emerald: #10b981;
-      --emerald-glow: rgba(16, 185, 129, 0.25);
-      --cyan: #06b6d4;
-      --cyan-glow: rgba(6, 182, 212, 0.25);
-      --indigo: #6366f1;
-      --amber: #f59e0b;
-      --rose: #f43f5e;
+      --bg:           hsl(220, 33%, 97%);
+      --bg-raw:       220, 33%, 97%;
+      --bg2:          hsl(220, 28%, 94%);
+      --surface:      hsla(0, 0%, 100%, 0.85);
+      --surface-solid:hsl(0, 0%, 100%);
+      --border:       hsla(220, 13%, 88%, 0.9);
+      --text:         hsl(224, 50%, 8%);
+      --text-muted:   hsl(220, 9%, 46%);
 
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
+      --sidebar-bg:      hsl(224, 50%, 7%);
+      --sidebar-surface: hsla(224, 40%, 12%, 0.7);
+      --sidebar-text:    hsla(210, 40%, 98%, 0.55);
+      --sidebar-hover:   hsla(210, 40%, 98%, 0.06);
+      --sidebar-active:  hsl(248, 85%, 65%);
+      --sidebar-width:   240px;
+      --topbar-h:        64px;
 
-      --font-ui: 'Plus Jakarta Sans', -apple-system, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
+      --radius-sm:    8px;
+      --radius:       12px;
+      --radius-lg:    16px;
+      --radius-xl:    20px;
+
+      --shadow-sm:    0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+      --shadow:       0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+      --shadow-md:    0 10px 30px rgba(0,0,0,0.1), 0 4px 8px rgba(0,0,0,0.06);
+      --shadow-lg:    0 20px 50px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
     }
 
-    * {
-      box-sizing: border-box;
+    body.dark {
+      --bg:           hsl(224, 45%, 5%);
+      --bg-raw:       224, 45%, 5%;
+      --bg2:          hsl(224, 40%, 8%);
+      --surface:      hsla(224, 35%, 12%, 0.88);
+      --surface-solid:hsl(224, 35%, 12%);
+      --border:       hsla(215, 28%, 20%, 0.9);
+      --text:         hsl(210, 40%, 96%);
+      --text-muted:   hsl(215, 20%, 58%);
+
+      --shadow-sm:    0 1px 3px rgba(0,0,0,0.3);
+      --shadow:       0 4px 12px rgba(0,0,0,0.4);
+      --shadow-md:    0 10px 30px rgba(0,0,0,0.5);
+      --shadow-lg:    0 20px 50px rgba(0,0,0,0.6);
+    }
+
+    /* BASE RESET */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif !important;
+      background: var(--bg) !important;
+      color: var(--text) !important;
+      overflow-x: hidden;
+      transition: background 0.3s ease, color 0.3s ease;
       margin: 0;
       padding: 0;
     }
 
-    html {
-      scroll-behavior: smooth;
-      background: var(--bg-base);
-      color: var(--text-main);
+    /* Ambient background gradient glow */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: 
+        radial-gradient(ellipse 60% 50% at 10% 30%, hsla(var(--primary-raw), 0.08), transparent 60%),
+        radial-gradient(ellipse 50% 40% at 90% 20%, hsla(280, 80%, 65%, 0.07), transparent 60%),
+        radial-gradient(ellipse 40% 40% at 50% 90%, hsla(142, 71%, 45%, 0.05), transparent 60%);
     }
 
-    body {
-      font-family: var(--font-ui);
-      background-color: var(--bg-base);
-      background-image: 
-        radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0px, transparent 50%),
-        radial-gradient(at 50% 50%, rgba(99, 102, 241, 0.06) 0px, transparent 50%);
-      background-attachment: fixed;
+    #wrapper {
+      display: flex;
       min-height: 100vh;
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
+      position: relative;
+      z-index: 1;
     }
 
-    ::selection {
-      background: var(--emerald);
-      color: #000;
-    }
-
-    ::-webkit-scrollbar {
-      width: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-base);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--emerald);
-    }
-
-    /* NAVIGATION */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(8, 12, 20, 0.85);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-glass);
-      padding: 14px 24px;
-    }
-    .nav-inner {
-      max-width: 1280px;
-      margin: 0 auto;
+    /* ══════════════════════════════════════
+       TOP DEMO ANNOUNCEMENT RIBBON
+    ══════════════════════════════════════ */
+    .demo-ribbon {
+      background: linear-gradient(90deg, #18152e, #1a1e36, #12192a);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      color: #e2e8f0;
+      padding: 8px 18px;
+      font-size: 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-    }
-    .nav-brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text-main);
-      font-weight: 800;
-      font-size: 1.25rem;
-    }
-    .nav-brand img {
-      width: 36px;
+      gap: 14px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
       height: 36px;
-      object-fit: contain;
-      filter: drop-shadow(0 0 8px var(--emerald-glow));
+      z-index: 1100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
-    .nav-brand span {
-      background: linear-gradient(135deg, #fff, #94a3b8);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: color 0.15s ease;
-    }
-    .nav-link:hover {
-      color: var(--emerald);
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      cursor: pointer;
-      border: 1px solid transparent;
-    }
-    .btn-emerald {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #ffffff;
-      box-shadow: 0 4px 14px var(--emerald-glow);
-    }
-    .btn-emerald:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-      filter: brightness(1.08);
-    }
-    .btn-glass {
-      background: var(--bg-glass);
-      border-color: var(--border-glass);
-      color: var(--text-main);
-      backdrop-filter: blur(8px);
-    }
-    .btn-glass:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-      transform: translateY(-2px);
-    }
-    .btn-sm {
-      padding: 6px 12px;
-      font-size: 0.78rem;
-    }
-
-    /* HERO */
-    .hero {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 80px 24px 60px;
-      text-align: center;
-      position: relative;
-    }
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 16px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      border-radius: 999px;
-      color: var(--emerald);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-bottom: 24px;
-    }
-    .badge-pulse {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--emerald);
-      box-shadow: 0 0 10px var(--emerald);
-      animation: pulse 1.8s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.85); }
-    }
-
-    .hero-title {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
-      margin-bottom: 20px;
-    }
-    .hero-title span {
-      background: linear-gradient(135deg, #10b981, #06b6d4, #a7f3d0);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .hero-desc {
-      font-size: 1.15rem;
-      color: var(--text-muted);
-      max-width: 760px;
-      margin: 0 auto 36px;
-      line-height: 1.7;
-    }
-    .hero-cta {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-bottom: 50px;
-    }
-    .metrics-ribbon {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      padding-top: 30px;
-      border-top: 1px solid var(--border-glass);
-    }
-    .metric-item {
+    .demo-ribbon-left {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-size: 0.9rem;
-      color: var(--text-muted);
       font-weight: 600;
     }
-    .metric-item span {
-      color: var(--emerald);
-      font-size: 1.1rem;
-    }
-
-    /* SECTION */
-    .section-wrap {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 70px 24px;
-    }
-    .section-head {
-      text-align: center;
-      margin-bottom: 48px;
-    }
-    .section-tag {
-      font-size: 0.8rem;
+    .demo-pill {
+      background: hsl(248, 85%, 65%);
+      color: #fff;
+      font-size: 10.5px;
       font-weight: 800;
-      color: var(--emerald);
+      padding: 2px 8px;
+      border-radius: 20px;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 8px;
-      display: block;
+      box-shadow: 0 0 10px hsla(248, 85%, 65%, 0.5);
     }
-    .section-title {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 800;
-      letter-spacing: -0.8px;
+    .demo-ribbon-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .section-subtitle {
-      color: var(--text-muted);
-      font-size: 1rem;
-      max-width: 650px;
-      margin: 10px auto 0;
+    .demo-ribbon-link {
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 11.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: color 0.15s;
+    }
+    .demo-ribbon-link:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+    .demo-reset-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+    .demo-reset-btn:hover {
+      background: hsl(0, 84%, 60%);
+      color: #fff;
+      border-color: transparent;
     }
 
-    /* INTERACTIVE PRODUCT DEMO WRAPPER */
-    .demo-container {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-glass);
-      border-radius: 16px;
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.7);
+    /* ══════════════════════════════════════
+       SIDEBAR
+    ══════════════════════════════════════ */
+    .sidebar {
+      position: fixed !important;
+      top: 36px;
+      left: 0;
+      width: var(--sidebar-width) !important;
+      height: calc(100vh - 36px);
+      background: var(--sidebar-bg) !important;
+      border-right: 1px solid hsla(215, 28%, 18%, 0.8) !important;
+      z-index: 1050;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       overflow: hidden;
-      margin-bottom: 40px;
     }
-    .demo-topbar {
-      background: rgba(8, 12, 20, 0.9);
-      padding: 12px 20px;
-      border-bottom: 1px solid var(--border-glass);
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      border-bottom: 1px solid hsla(215, 28%, 18%, 0.6);
+      text-decoration: none !important;
+      height: var(--topbar-h);
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo {
+      width: 38px;
+      height: 38px;
+      background: #ffffff;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px hsla(248, 85%, 65%, 0.4);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .sidebar-logo img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+    }
+
+    .sidebar-brand-name {
+      font-size: 18px;
+      font-weight: 800;
+      color: white !important;
+      letter-spacing: -0.03em;
+    }
+    .sidebar-brand-name span {
+      color: hsl(248, 85%, 75%);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 12px;
+    }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: hsla(215, 28%, 30%, 0.5); border-radius: 4px; }
+
+    .nav-section-label {
+      padding: 12px 14px 6px;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: hsla(210, 40%, 98%, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar ul li { margin-bottom: 4px; }
+
+    .sidebar ul li a {
+      display: flex !important;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px !important;
+      border-radius: var(--radius-sm) !important;
+      color: var(--sidebar-text) !important;
+      font-weight: 600 !important;
+      font-size: 13.5px !important;
+      text-decoration: none !important;
+      background: transparent !important;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .sidebar ul li a .nav-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      background: hsla(210, 40%, 98%, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .sidebar ul li a:hover {
+      color: white !important;
+      background: var(--sidebar-hover) !important;
+    }
+    .sidebar ul li a:hover .nav-icon {
+      background: hsla(248, 85%, 65%, 0.18);
+      color: hsl(248, 85%, 75%);
+    }
+
+    .sidebar ul li a.active {
+      color: white !important;
+      background: linear-gradient(135deg, hsla(248, 85%, 65%, 0.28), hsla(280, 80%, 68%, 0.16)) !important;
+      border: 1px solid hsla(248, 85%, 65%, 0.3) !important;
+    }
+    .sidebar ul li a.active .nav-icon {
+      background: hsl(248, 85%, 65%);
+      color: white;
+      box-shadow: 0 4px 12px hsla(248, 85%, 65%, 0.45);
+    }
+
+    .sidebar-footer {
+      padding: 12px;
+      border-top: 1px solid hsla(215, 28%, 18%, 0.6);
+      flex-shrink: 0;
+    }
+    .sidebar-footer a {
+      display: flex !important;
+      align-items: center;
+      gap: 10px;
+      color: var(--sidebar-text) !important;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .sidebar-footer a:hover {
+      color: hsl(0, 84%, 70%) !important;
+      background: hsla(0, 84%, 60%, 0.1) !important;
+    }
+
+    /* ══════════════════════════════════════
+       TOPBAR
+    ══════════════════════════════════════ */
+    .navbar-top {
+      position: fixed !important;
+      top: 36px;
+      left: var(--sidebar-width);
+      right: 0;
+      height: var(--topbar-h);
+      z-index: 1040;
+      background: var(--surface) !important;
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--border) !important;
+      box-shadow: var(--shadow-sm) !important;
+      display: flex !important;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .sidebar-mobile-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .topbar-page-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      letter-spacing: -0.02em;
+    }
+    .topbar-page-title i {
+      color: var(--primary);
+      font-size: 18px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .topbar-date {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--bg2);
+      border-radius: 20px;
+    }
+
+    /* Theme Toggle */
+    .topbar-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--surface-solid);
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .topbar-btn:hover {
+      background: var(--bg2);
+      color: var(--primary);
+      border-color: hsla(var(--primary-raw), 0.3);
+    }
+
+    /* Admin Dropdown */
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      border-radius: 24px;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--surface-solid);
+      transition: all 0.2s ease;
+      text-decoration: none !important;
+      position: relative;
+    }
+    .topbar-user:hover {
+      background: var(--bg2);
+    }
+    .topbar-user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .topbar-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ══════════════════════════════════════
+       MAIN CONTENT CONTAINER
+    ══════════════════════════════════════ */
+    #page-wrapper {
+      margin-left: var(--sidebar-width) !important;
+      padding: calc(var(--topbar-h) + 48px) 28px 40px !important;
+      min-height: 100vh;
+      background: transparent !important;
+      flex: 1;
+      transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .page-header {
+      font-size: 1.65rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text) !important;
+      border: none !important;
+      margin: 0 0 1.5rem 0 !important;
+      padding: 0 !important;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
       flex-wrap: wrap;
-    }
-    .demo-dots {
-      display: flex;
-      gap: 8px;
-    }
-    .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .dot-r { background: #ef4444; }
-    .dot-y { background: #f59e0b; }
-    .dot-g { background: #10b981; }
-    .demo-titlebar-label {
-      font-size: 0.82rem;
-      font-family: var(--font-mono);
-      color: var(--text-dim);
-    }
-    .demo-badge-live {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--emerald);
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      gap: 16px;
     }
 
-    /* DEMO TABS */
-    .demo-nav-tabs {
-      display: flex;
-      gap: 4px;
-      background: rgba(15, 23, 42, 0.9);
-      padding: 8px 16px;
-      border-bottom: 1px solid var(--border-glass);
-      overflow-x: auto;
-    }
-    .demo-tab-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-family: var(--font-ui);
-      font-size: 0.86rem;
-      font-weight: 700;
-      padding: 10px 18px;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      transition: all 0.15s ease;
-    }
-    .demo-tab-btn:hover {
-      color: var(--text-main);
-      background: rgba(255, 255, 255, 0.04);
-    }
-    .demo-tab-btn.active {
-      color: #ffffff;
-      background: var(--emerald);
-      box-shadow: 0 2px 10px var(--emerald-glow);
-    }
-
-    /* DEMO CONTENT VIEWPORT */
-    .demo-viewport {
-      padding: 28px;
-      min-height: 480px;
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-      animation: fadeIn 0.25s ease;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* STATS CARDS IN DEMO */
-    .demo-stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-    .demo-stat-card {
-      background: rgba(30, 41, 59, 0.4);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      padding: 20px;
+    /* ══════════════════════════════════════
+       CARD MODERN & STAT CARDS
+    ══════════════════════════════════════ */
+    .card-modern {
+      background: var(--surface) !important;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-lg) !important;
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      transition: all 0.25s ease;
       position: relative;
       overflow: hidden;
     }
-    .demo-stat-card::before {
-      content: '';
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 1050px) { .dashboard-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 580px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    .stat-card {
+      position: relative;
+      overflow: hidden;
+    }
+    .stat-card-bg-icon {
       position: absolute;
-      top: 0;
-      left: 0;
-      height: 3px;
-      width: 100%;
-      background: linear-gradient(90deg, var(--emerald), var(--cyan));
+      right: -10px;
+      bottom: -10px;
+      font-size: 5.5rem;
+      opacity: 0.07;
+      pointer-events: none;
+      transition: transform 0.4s ease, opacity 0.4s ease;
     }
-    .stat-label-dim {
-      font-size: 0.78rem;
-      font-weight: 700;
-      color: var(--text-dim);
+    .card-modern:hover .stat-card-bg-icon {
+      transform: scale(1.08) rotate(-6deg);
+      opacity: 0.12;
+    }
+    .stat-label {
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      opacity: 0.8;
+      margin-bottom: 12px;
     }
-    .stat-value-big {
+    .stat-number {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+    .stat-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 7px 14px;
+      border-radius: 20px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .stat-link:hover {
+      transform: translateX(3px);
+      text-decoration: none;
+      filter: brightness(1.1);
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 9px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+      text-decoration: none !important;
+    }
+    .btn-sm {
+      padding: 6px 14px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 14px hsla(var(--primary-raw), 0.35);
+    }
+    .btn-primary:hover {
+      filter: brightness(1.08);
+      color: white;
+      transform: translateY(-1px);
+    }
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    .btn-success:hover {
+      filter: brightness(1.08);
+      color: white;
+      transform: translateY(-1px);
+    }
+    .btn-info {
+      background: var(--info);
+      color: white;
+    }
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+    .btn-outline {
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover {
+      background: var(--bg2);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    /* ══════════════════════════════════════
+       PRODUCT VIEW (products.png 1-to-1)
+    ══════════════════════════════════════ */
+    .prod-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    @media(max-width: 900px){ .prod-stats { grid-template-columns: repeat(2,1fr); } }
+    @media(max-width: 520px){ .prod-stats { grid-template-columns: 1fr; } }
+
+    .pstat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+    }
+    .pstat:hover { transform: translateY(-2px); }
+    .pstat-label {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .pstat-val {
       font-size: 1.8rem;
       font-weight: 800;
-      margin: 8px 0 4px;
-      color: var(--text-main);
+      letter-spacing: -0.04em;
+      color: var(--text);
     }
-    .stat-diff {
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: var(--emerald);
+    .pstat-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 2.2rem;
+      opacity: 0.1;
+    }
+
+    .filter-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 18px;
       display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+    .search-inner {
+      position: relative;
+      flex: 1;
+      min-width: 220px;
+    }
+    .search-inner i {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+      pointer-events: none;
+    }
+    .search-input {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 14px 9px 38px;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+    }
+
+    .cat-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--surface-solid);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .cat-chip.active {
+      background: var(--primary);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 2px 8px hsla(var(--primary-raw), 0.35);
+    }
+    .cat-chip:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .cat-chip.active:hover {
+      color: white;
+    }
+    .cat-chip.warning {
+      border-color: hsla(38,92%,50%,0.35);
+      color: hsl(38,92%,55%);
+    }
+    .cat-chip.warning.active {
+      background: hsl(38,92%,50%);
+      color: white;
+    }
+    .cat-chip.danger {
+      border-color: hsla(0,84%,60%,0.35);
+      color: hsl(0,84%,65%);
+    }
+    .cat-chip.danger.active {
+      background: hsl(0,84%,60%);
+      color: white;
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .prod-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .prod-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: hsla(var(--primary-raw), 0.35);
+    }
+    .prod-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .prod-card:hover::after { opacity: 1; }
+
+    .prod-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .prod-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      flex-shrink: 0;
+      background: hsla(var(--primary-raw), 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 20px;
+    }
+    .prod-title-group {
+      flex: 1;
+    }
+    .prod-name {
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .prod-cat {
+      display: inline-flex;
       align-items: center;
       gap: 4px;
+      padding: 3px 9px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      background: hsla(var(--primary-raw), 0.1);
+      color: var(--primary);
+      border: 1px solid hsla(var(--primary-raw), 0.2);
     }
 
-    /* TABLE IN DEMO */
-    .demo-table-wrap {
-      background: rgba(15, 23, 42, 0.4);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      overflow-x: auto;
-    }
-    .demo-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-      font-size: 0.88rem;
-    }
-    .demo-table th {
-      background: rgba(30, 41, 59, 0.5);
-      padding: 14px 18px;
-      font-size: 0.78rem;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--border-glass);
-    }
-    .demo-table td {
-      padding: 14px 18px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      color: var(--text-main);
-    }
-    .demo-table tr:last-child td {
-      border-bottom: none;
-    }
-    .demo-table tr {
-      transition: background 0.15s ease, opacity 0.3s ease;
-    }
-    .demo-table tr:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .table-fade-out {
-      opacity: 0 !important;
-      transform: translateX(20px);
-    }
-
-    /* STATUS PILLS */
-    .status-pill {
-      font-size: 0.72rem;
-      font-weight: 800;
-      padding: 3px 10px;
-      border-radius: 999px;
-      display: inline-block;
-      text-transform: uppercase;
-    }
-    .pill-green {
-      background: rgba(16, 185, 129, 0.15);
-      color: #34d399;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .pill-amber {
-      background: rgba(245, 158, 11, 0.15);
-      color: #fbbf24;
-      border: 1px solid rgba(245, 158, 11, 0.3);
-    }
-    .pill-rose {
-      background: rgba(244, 63, 94, 0.15);
-      color: #f87171;
-      border: 1px solid rgba(244, 63, 94, 0.3);
-    }
-
-    /* INVOICE POS BUILDER */
-    .pos-grid {
-      display: grid;
-      grid-template-columns: 1.4fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 900px) {
-      .pos-grid { grid-template-columns: 1fr; }
-    }
-    .pos-panel {
-      background: rgba(30, 41, 59, 0.4);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      padding: 24px;
-    }
-    .pos-panel h4 {
-      font-size: 1.1rem;
-      font-weight: 800;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .form-row {
+    .prod-meta {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-      margin-bottom: 14px;
+      background: var(--bg2);
+      padding: 12px;
+      border-radius: 12px;
+    }
+    .pm-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+    .pm-val {
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .stock-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11.5px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: var(--text-muted);
+    }
+    .stock-bar {
+      height: 6px;
+      background: var(--bg2);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .stock-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.4s ease;
+    }
+
+    .prod-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+    }
+    .p-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 0;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      background: var(--surface-solid);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .p-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    .p-btn.del:hover {
+      border-color: hsl(0,84%,60%);
+      color: hsl(0,84%,60%);
+      background: hsla(0,84%,60%,0.08);
+    }
+
+    /* AJAX Fade-out animation */
+    .fade-out-row {
+      animation: fadeOutRow 0.45s ease forwards;
+    }
+    @keyframes fadeOutRow {
+      0% { opacity: 1; transform: scale(1); max-height: 250px; margin-bottom: 18px; }
+      100% { opacity: 0; transform: scale(0.92); max-height: 0; margin-bottom: 0; padding: 0; border: none; }
+    }
+
+    /* ══════════════════════════════════════
+       SELL / POS BILLING (sell.php 1-to-1)
+    ══════════════════════════════════════ */
+    .sell-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    @media(max-width: 980px) { .sell-layout { grid-template-columns: 1fr; } }
+
+    .sell-sidebar {
+      position: sticky;
+      top: calc(var(--topbar-h) + 50px);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .info-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .info-block-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      background: var(--bg2);
+    }
+    .info-block-body { padding: 20px; }
+
+    .customer-pill {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .customer-pill-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+    .customer-select-dropdown {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      outline: none;
+      margin-top: 10px;
+    }
+
+    .payment-selector { display: flex; gap: 10px; }
+    .pay-option {
+      flex: 1;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: var(--surface-solid);
+      cursor: pointer;
+      text-align: center;
+      font-weight: 800;
+      font-size: 12.5px;
+      transition: all 0.2s ease;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .pay-option.active-pending {
+      border-color: hsl(38,92%,50%);
+      background: hsla(38,92%,50%,0.1);
+      color: hsl(38,92%,55%);
+    }
+    .pay-option.active-paid {
+      border-color: hsl(142,71%,45%);
+      background: hsla(142,71%,45%,0.12);
+      color: hsl(142,71%,48%);
+    }
+
+    .order-summary-lines { list-style: none; padding: 0; margin: 0; }
+    .order-summary-lines li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .order-summary-lines li:last-child { border-bottom: none; }
+    .osl-name { font-weight: 700; max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .osl-sub  { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+    .osl-total{ font-weight: 800; color: var(--text); }
+
+    .grand-total-row {
+      margin-top: 14px;
+      padding: 14px 16px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, hsl(224,50%,8%), hsl(235,45%,14%));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .gt-label { color: hsla(210,40%,98%,0.7); font-size: 12px; font-weight: 700; text-transform: uppercase; }
+    .gt-val   { color: white; font-size: 22px; font-weight: 800; letter-spacing: -0.03em; }
+
+    /* Product Table in POS */
+    .product-table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .pt-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg2);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .table-modern {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .table-modern th {
+      padding: 12px 18px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+    }
+    .table-modern td {
+      padding: 14px 18px;
+      font-size: 13.5px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    .table-modern tr:hover td {
+      background: hsla(var(--primary-raw), 0.03);
+    }
+    .table-modern tr.selected td {
+      background: hsla(var(--primary-raw), 0.07) !important;
+    }
+
+    .product-checkbox {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .qty-input {
+      width: 80px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--surface-solid);
+      color: var(--text);
+      font-weight: 700;
+      font-size: 14px;
+      text-align: center;
+      outline: none;
+    }
+    .qty-input:focus {
+      border-color: var(--primary);
+    }
+
+    /* ══════════════════════════════════════
+       CUSTOMERS & VENDORS GRIDS
+    ══════════════════════════════════════ */
+    .cust-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .cust-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: hsla(var(--primary-raw), 0.35);
+    }
+    .cust-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .cust-card:hover::after { opacity: 1; }
+
+    .cust-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 19px;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
+       INVOICE MODAL (bill.html 1-to-1)
+    ══════════════════════════════════════ */
+    .invoice-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .invoice-modal-backdrop.active {
+      display: flex;
+    }
+    .invoice-modal-window {
+      background: #ffffff;
+      color: #1e293b;
+      max-width: 820px;
+      width: 100%;
+      border-radius: 16px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      overflow: hidden;
+      animation: modalPop 0.25s ease-out;
+    }
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.95); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .invoice-modal-toolbar {
+      background: #0f172a;
+      color: #fff;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .invoice-modal-body {
+      padding: 36px 40px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    /* Print styling */
+    @media print {
+      body * { visibility: hidden; }
+      .invoice-modal-window, .invoice-modal-window * { visibility: visible; }
+      .invoice-modal-backdrop {
+        position: absolute;
+        left: 0; top: 0;
+        background: white;
+        padding: 0;
+      }
+      .invoice-modal-toolbar { display: none !important; }
+    }
+
+    /* TOAST NOTIFICATION */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #111827;
+      color: #fff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.15);
+      z-index: 100000;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .toast-msg.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* MODAL POPUP FOR ADD PRODUCT / CUSTOMER / VENDOR */
+    .generic-modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 99990;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .generic-modal-backdrop.active { display: flex; }
+    .generic-modal-box {
+      background: var(--surface-solid);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: modalPop 0.2s ease-out;
+    }
+    .generic-modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .generic-modal-body {
+      padding: 24px;
     }
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
-    .form-label {
+    .form-group label {
       display: block;
-      font-size: 0.78rem;
-      font-weight: 700;
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
       color: var(--text-muted);
       margin-bottom: 6px;
     }
     .form-control {
       width: 100%;
-      background: rgba(15, 23, 42, 0.7);
-      border: 1px solid var(--border-glass);
-      border-radius: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
       padding: 10px 14px;
-      color: #fff;
-      font-family: var(--font-ui);
-      font-size: 0.88rem;
+      border-radius: 10px;
+      font-size: 13.5px;
       outline: none;
-      transition: border-color 0.15s ease;
     }
     .form-control:focus {
-      border-color: var(--emerald);
-      box-shadow: 0 0 0 2px var(--emerald-glow);
-    }
-    .pos-items-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.82rem;
-      margin: 16px 0;
-    }
-    .pos-items-table th {
-      color: var(--text-dim);
-      font-weight: 700;
-      padding: 8px 4px;
-      border-bottom: 1px solid var(--border-glass);
-    }
-    .pos-items-table td {
-      padding: 8px 4px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-    }
-    .pos-totals {
-      border-top: 1px solid var(--border-glass);
-      padding-top: 14px;
-      margin-top: 14px;
-    }
-    .pos-total-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-    .pos-total-row.grand {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text-main);
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px dashed var(--border-glass);
+      border-color: var(--primary);
     }
 
-    /* INVOICE PREVIEW MODAL */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(8px);
-      z-index: 99999;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
-    .modal-backdrop.active {
-      display: flex;
-    }
-    .invoice-card-modal {
-      background: #ffffff;
-      color: #0f172a;
-      border-radius: 12px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      width: 100%;
-      max-width: 680px;
-      max-height: 90vh;
-      overflow-y: auto;
-      padding: 36px;
-      font-family: var(--font-ui);
-      position: relative;
-    }
-    .inv-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 24px;
-      padding-bottom: 18px;
-      border-bottom: 2px solid #f1f5f9;
-    }
-    .inv-logo-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #0f172a;
-    }
-    .inv-meta {
-      text-align: right;
-      font-size: 0.82rem;
-      color: #64748b;
-    }
-    .inv-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 20px 0;
-      font-size: 0.85rem;
-    }
-    .inv-table th {
-      background: #f8fafc;
-      padding: 10px 12px;
-      text-align: left;
-      font-weight: 700;
-      color: #475569;
-    }
-    .inv-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid #f1f5f9;
-    }
-
-    /* FEATURES GRID */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 24px;
-    }
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-glass);
-      border-radius: 14px;
-      padding: 28px;
-      transition: all 0.2s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .feature-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--border-hover);
-      box-shadow: 0 15px 35px -10px var(--emerald-glow);
-    }
-    .feature-icon-box {
-      width: 48px;
-      height: 48px;
-      border-radius: 10px;
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.25);
-      color: var(--emerald);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      margin-bottom: 18px;
-    }
-    .feature-title {
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-      color: var(--text-main);
-    }
-    .feature-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-
-    /* PREVIEWS SECTION */
-    .preview-showcase {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-    }
-    @media (max-width: 860px) {
-      .preview-showcase { grid-template-columns: 1fr; }
-    }
-    .preview-frame {
-      background: var(--bg-surface);
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-      transition: transform 0.2s ease;
-    }
-    .preview-frame:hover {
-      transform: scale(1.02);
-      border-color: var(--emerald);
-    }
-    .preview-frame img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .preview-caption {
-      padding: 14px 18px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      background: rgba(15, 23, 42, 0.9);
-      border-top: 1px solid var(--border-glass);
-    }
-
-    /* QUICKSTART TERMINAL */
-    .quickstart-box {
-      background: #0b0f19;
-      border: 1px solid var(--border-glass);
-      border-radius: 12px;
-      padding: 24px;
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      position: relative;
-    }
-    .quickstart-code {
-      color: #38bdf8;
-      line-height: 1.7;
-    }
-    .quickstart-comment {
-      color: var(--text-dim);
-    }
-
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border-glass);
-      background: #06090e;
-      padding: 60px 24px 30px;
-      margin-top: 60px;
-    }
-    .footer-inner {
-      max-width: 1280px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 36px;
-      padding-bottom: 40px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-    @media (max-width: 768px) {
-      .footer-inner { grid-template-columns: 1fr; }
-    }
-    .footer-brand-title {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
-    .footer-desc {
-      font-size: 0.86rem;
-      color: var(--text-muted);
-      max-width: 440px;
-      line-height: 1.6;
-    }
-    .footer-col h4 {
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: var(--text-main);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 16px;
-    }
-    .footer-col ul {
-      list-style: none;
-    }
-    .footer-col ul li {
-      margin-bottom: 8px;
-    }
-    .footer-col ul li a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      transition: color 0.15s ease;
-    }
-    .footer-col ul li a:hover {
-      color: var(--emerald);
-    }
-    .footer-bottom {
-      max-width: 1280px;
-      margin: 20px auto 0;
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 0.78rem;
-      color: var(--text-dim);
+    /* RESPONSIVE TOGGLES */
+    @media (max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      .navbar-top {
+        left: 0;
+      }
+      #page-wrapper {
+        margin-left: 0 !important;
+      }
+      .sidebar-mobile-toggle {
+        display: inline-flex;
+      }
     }
   </style>
 </head>
-<body>
+<body class="dark">
 
-  <!-- TOP NAVIGATION -->
-  <nav>
-    <div class="nav-inner">
-      <a href="#" class="nav-brand">
-        <img src="logo.png" alt="Billcraft Logo" onerror="this.src='assets/images/logo-icon.png'">
-        <span>Billcraft</span>
-      </a>
-
-      <div class="nav-links">
-        <a href="#demo" class="nav-link">Live Demo</a>
-        <a href="#features" class="nav-link">Features</a>
-        <a href="#preview" class="nav-link">Screenshots</a>
-        <a href="#install" class="nav-link">Installation</a>
-        <a href="https://github.com/0xSHARON/billcraft" target="_blank" class="btn btn-glass btn-sm">
-          <span>⌘</span> GitHub
-        </a>
-        <a href="#demo" class="btn btn-emerald btn-sm">
-          Try Interactive Demo →
-        </a>
-      </div>
+  <!-- ══════════════════════════════════════
+       DEMO TOP ANNOUNCEMENT RIBBON
+  ══════════════════════════════════════ -->
+  <div class="demo-ribbon">
+    <div class="demo-ribbon-left">
+      <span class="demo-pill">OFFICIAL LIVE DEMO</span>
+      <span>Billcraft — Business Management &amp; Invoicing System</span>
     </div>
-  </nav>
-
-  <!-- HERO SECTION -->
-  <header class="hero">
-    <div class="hero-badge">
-      <span class="badge-pulse"></span>
-      <span>v2.4 STABLE // OPEN SOURCE BUSINESS ERP</span>
-    </div>
-
-    <h1 class="hero-title">
-      Modern Business Management &amp;<br>
-      <span>Smart PDF Invoicing</span>
-    </h1>
-
-    <p class="hero-desc">
-      Billcraft streamlines small and medium enterprise operations. Manage multi-tier inventory, track client CRM records, experience instant zero-reload AJAX operations, and dispatch professional PDF invoices with 1-click WhatsApp delivery.
-    </p>
-
-    <div class="hero-cta">
-      <a href="#demo" class="btn btn-emerald">
-        <span>🚀</span> Launch Interactive Demo
+    <div class="demo-ribbon-right">
+      <button class="demo-reset-btn" onclick="resetDemoData()"><i class="fa fa-rotate-right"></i> Reset Demo Data</button>
+      <a href="https://github.com/0xSHARON/billcraft" target="_blank" class="demo-ribbon-link">
+        <i class="fa-brands fa-github"></i> 0xSHARON/billcraft
       </a>
-      <a href="https://github.com/0xSHARON/billcraft" target="_blank" class="btn btn-glass">
-        <span>⌘</span> Star on GitHub
-      </a>
-      <a href="https://0xsharon.github.io/" target="_blank" class="btn btn-glass">
-        <span>👤</span> 0xSHARON Portfolio ↗
+      <a href="https://0xsharon.github.io/" target="_blank" class="demo-ribbon-link">
+        <i class="fa fa-arrow-up-right-from-square"></i> Sharon Babu Portfolio
       </a>
     </div>
+  </div>
 
-    <!-- METRICS RIBBON -->
-    <div class="metrics-ribbon">
-      <div class="metric-item"><span>⚡</span> Instant AJAX Fade-out Operations</div>
-      <div class="metric-item"><span>📄</span> Automated PDF Invoice Engine</div>
-      <div class="metric-item"><span>💬</span> 1-Click WhatsApp Client Dispatch</div>
-      <div class="metric-item"><span>🔒</span> Prepared Statements &amp; Bcrypt Auth</div>
-    </div>
-  </header>
+  <div id="wrapper">
 
-  <!-- SECTION: INTERACTIVE LIVE DEMO -->
-  <section class="section-wrap" id="demo">
-    <div class="section-head">
-      <span class="section-tag">Hands-On Experience</span>
-      <h2 class="section-title">Interactive Product Demo</h2>
-      <p class="section-subtitle">
-        Test real Billcraft capabilities directly in your browser without local server setup. Switch modules, manage inventory, and generate a printable PDF invoice.
-      </p>
-    </div>
-
-    <div class="demo-container">
-      <!-- Top Titlebar -->
-      <div class="demo-topbar">
-        <div class="demo-dots">
-          <div class="dot dot-r"></div>
-          <div class="dot dot-y"></div>
-          <div class="dot dot-g"></div>
+    <!-- ══════════════════════════════════════
+         SIDEBAR (From includes/header.php)
+    ══════════════════════════════════════ -->
+    <nav class="sidebar" id="appSidebar">
+      <a href="javascript:void(0)" onclick="switchView('dashboard')" class="sidebar-brand">
+        <div class="sidebar-logo">
+          <img src="logo.png" alt="Billcraft Logo" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/0xSHARON/billcraft/main/logo.png';">
         </div>
-        <div class="demo-titlebar-label">BILLCRAFT v2.4 // SESSION: ADMIN (ID: 0xSHARON)</div>
-        <div class="demo-badge-live">
-          <span class="badge-pulse"></span> SIMULATED CLOUD ENGINE READY
+        <div class="sidebar-brand-name">
+          BILL<span>CRAFT</span>
+        </div>
+      </a>
+
+      <div class="sidebar-nav">
+        <div class="nav-section-label">MAIN MENU</div>
+        <ul>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('dashboard')" id="nav-dashboard" class="active">
+              <span class="nav-icon"><i class="fa fa-gauge-high"></i></span>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('vendors')" id="nav-vendors">
+              <span class="nav-icon"><i class="fa fa-truck-field"></i></span>
+              <span>Vendors</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('customers')" id="nav-customers">
+              <span class="nav-icon"><i class="fa fa-users"></i></span>
+              <span>Customers</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('products')" id="nav-products">
+              <span class="nav-icon"><i class="fa fa-boxes-stacked"></i></span>
+              <span>Products</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('sell')" id="nav-sell">
+              <span class="nav-icon"><i class="fa fa-cart-plus"></i></span>
+              <span>Sell (POS)</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('orders')" id="nav-orders">
+              <span class="nav-icon"><i class="fa fa-receipt"></i></span>
+              <span>Orders</span>
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('reports')" id="nav-reports">
+              <span class="nav-icon"><i class="fa fa-chart-bar"></i></span>
+              <span>Reports</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="nav-section-label" style="margin-top: 14px;">SYSTEM</div>
+        <ul>
+          <li>
+            <a href="javascript:void(0)" onclick="switchView('settings')" id="nav-settings">
+              <span class="nav-icon"><i class="fa fa-gear"></i></span>
+              <span>Settings</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <a href="javascript:void(0)" onclick="showToast('Admin session is active in demo mode')">
+          <i class="fa fa-right-from-bracket" style="color: hsl(0,84%,60%);"></i>
+          <span>Logout</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- ══════════════════════════════════════
+         TOPBAR (From includes/header.php)
+    ══════════════════════════════════════ -->
+    <header class="navbar-top">
+      <div class="topbar-left">
+        <button class="sidebar-mobile-toggle" onclick="toggleMobileSidebar()" aria-label="Toggle Navigation">
+          <i class="fa fa-bars"></i>
+        </button>
+        <div class="topbar-page-title" id="pageTitleDisplay">
+          <i class="fa fa-gauge-high"></i> Dashboard
         </div>
       </div>
 
-      <!-- Navigation Tabs -->
-      <div class="demo-nav-tabs">
-        <button class="demo-tab-btn active" onclick="switchDemoTab('dashboard', this)">
-          <span>📊</span> Dashboard Overview
+      <div class="topbar-right">
+        <div class="topbar-date" id="currentDateDisplay">
+          <i class="fa fa-calendar-day"></i> <span id="dateText">Tuesday, April 7, 2026</span>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button class="topbar-btn" onclick="toggleTheme()" id="themeBtn" title="Toggle Light / Dark Mode">
+          <i class="fa fa-sun"></i>
         </button>
-        <button class="demo-tab-btn" onclick="switchDemoTab('inventory', this)">
-          <span>📦</span> Inventory Management
+
+        <button class="topbar-btn" onclick="switchView('settings')" title="Settings">
+          <i class="fa fa-gear"></i>
         </button>
-        <button class="demo-tab-btn" onclick="switchDemoTab('pos', this)">
-          <span>📄</span> Smart Billing &amp; Invoices
-        </button>
-        <button class="demo-tab-btn" onclick="switchDemoTab('crm', this)">
-          <span>👥</span> Customers &amp; CRM
-        </button>
-        <button class="demo-tab-btn" onclick="switchDemoTab('vendors', this)">
-          <span>🚚</span> Vendors Ledger
-        </button>
+
+        <!-- Admin Profile -->
+        <div class="topbar-user" onclick="switchView('settings')">
+          <div class="topbar-user-avatar">
+            <i class="fa fa-user"></i>
+          </div>
+          <span class="topbar-user-name">Admin</span>
+          <i class="fa fa-chevron-down" style="font-size: 11px; opacity: 0.5;"></i>
+        </div>
       </div>
+    </header>
 
-      <!-- Viewport Content -->
-      <div class="demo-viewport">
-        
-        <!-- TAB 1: DASHBOARD -->
-        <div class="tab-content active" id="tab-dashboard">
-          <div class="demo-stats-grid">
-            <div class="demo-stat-card">
-              <div class="stat-label-dim">Total Monthly Revenue</div>
-              <div class="stat-value-big">$48,250.00</div>
-              <div class="stat-diff">↑ +14.2% from last month</div>
-            </div>
+    <!-- ══════════════════════════════════════
+         PAGE WRAPPER (VIEW OUTLET)
+    ══════════════════════════════════════ -->
+    <main id="page-wrapper">
 
-            <div class="demo-stat-card">
-              <div class="stat-label-dim">Total Orders Dispatched</div>
-              <div class="stat-value-big">1,248</div>
-              <div class="stat-diff">↑ +8.4% completed</div>
-            </div>
-
-            <div class="demo-stat-card">
-              <div class="stat-label-dim">Inventory SKUs Tracked</div>
-              <div class="stat-value-big">84 Items</div>
-              <div class="stat-diff" style="color:var(--amber);">⚠ 3 Items Low Stock</div>
-            </div>
-
-            <div class="demo-stat-card">
-              <div class="stat-label-dim">Active Enterprise Clients</div>
-              <div class="stat-value-big">312</div>
-              <div class="stat-diff">↑ +24 new accounts</div>
+      <!-- ──────────────────────────────────────
+           VIEW 1: DASHBOARD (From index.php & dashboard.png)
+      ────────────────────────────────────── -->
+      <section id="view-dashboard" class="app-view">
+        <div class="page-header">
+          <div>
+            Dashboard
+            <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 4px;" id="dashboardSubDate">
+              Welcome back to Billcraft Business Management System
             </div>
           </div>
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-primary btn-sm" onclick="switchView('sell')">
+              <i class="fa fa-cart-plus"></i> New Sale
+            </button>
+          </div>
+        </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-            <h4 style="font-size:1rem; font-weight:700;">Recent Sales &amp; Invoices</h4>
-            <span style="font-size:0.75rem; color:var(--text-dim);">Live Database Records</span>
+        <!-- 4 Stat Cards -->
+        <div class="dashboard-grid">
+          <!-- Vendors -->
+          <div class="card-modern stat-card" style="border-top: 3px solid hsl(248, 85%, 65%);">
+            <i class="fa fa-truck-field stat-card-bg-icon" style="color: hsl(248, 85%, 65%);"></i>
+            <div class="stat-label" style="color: hsl(248, 85%, 65%);">Vendors</div>
+            <div class="stat-number" id="dashVendorsCount">4</div>
+            <a onclick="switchView('vendors')" class="stat-link" style="background: hsla(248, 85%, 65%, 0.12); color: hsl(248, 85%, 65%);">
+              View all <i class="fa fa-arrow-right" style="font-size: 11px;"></i>
+            </a>
           </div>
 
-          <div class="demo-table-wrap">
-            <table class="demo-table">
+          <!-- Customers -->
+          <div class="card-modern stat-card" style="border-top: 3px solid hsl(142, 71%, 45%);">
+            <i class="fa fa-users stat-card-bg-icon" style="color: hsl(142, 71%, 45%);"></i>
+            <div class="stat-label" style="color: hsl(142, 71%, 45%);">Customers</div>
+            <div class="stat-number" id="dashCustomersCount">6</div>
+            <a onclick="switchView('customers')" class="stat-link" style="background: hsla(142, 71%, 45%, 0.12); color: hsl(142, 71%, 45%);">
+              View all <i class="fa fa-arrow-right" style="font-size: 11px;"></i>
+            </a>
+          </div>
+
+          <!-- Products -->
+          <div class="card-modern stat-card" style="border-top: 3px solid hsl(199, 89%, 48%);">
+            <i class="fa fa-boxes-stacked stat-card-bg-icon" style="color: hsl(199, 89%, 48%);"></i>
+            <div class="stat-label" style="color: hsl(199, 89%, 48%);">Products</div>
+            <div class="stat-number" id="dashProductsCount">6</div>
+            <a onclick="switchView('products')" class="stat-link" style="background: hsla(199, 89%, 48%, 0.12); color: hsl(199, 89%, 48%);">
+              View all <i class="fa fa-arrow-right" style="font-size: 11px;"></i>
+            </a>
+          </div>
+
+          <!-- Reports -->
+          <div class="card-modern stat-card" style="border-top: 3px solid hsl(38, 92%, 50%);">
+            <i class="fa fa-chart-bar stat-card-bg-icon" style="color: hsl(38, 92%, 50%);"></i>
+            <div class="stat-label" style="color: hsl(38, 92%, 50%);">Reports</div>
+            <div class="stat-number" style="font-size: 1.8rem;">Analytics</div>
+            <a onclick="switchView('reports')" class="stat-link" style="background: hsla(38, 92%, 50%, 0.12); color: hsl(38, 92%, 50%);">
+              View reports <i class="fa fa-arrow-right" style="font-size: 11px;"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Actions Row -->
+        <div class="card-modern" style="margin-bottom: 24px;">
+          <h5 style="font-weight: 800; font-size: 12px; margin-bottom: 16px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">
+            QUICK ACTIONS
+          </h5>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+            <button onclick="openGenericModal('vendor')" class="btn btn-primary btn-sm">
+              <i class="fa fa-plus"></i> Add Vendor
+            </button>
+            <button onclick="openGenericModal('customer')" class="btn btn-success btn-sm">
+              <i class="fa fa-plus"></i> Add Customer
+            </button>
+            <button onclick="openGenericModal('product')" class="btn btn-info btn-sm">
+              <i class="fa fa-plus"></i> Add Product
+            </button>
+            <button onclick="switchView('sell')" class="btn btn-warning btn-sm">
+              <i class="fa fa-cart-plus"></i> New Sale
+            </button>
+            <button onclick="switchView('orders')" class="btn btn-outline btn-sm">
+              <i class="fa fa-receipt"></i> View Orders
+            </button>
+          </div>
+        </div>
+
+        <!-- Recent Transactions & Revenue Highlights -->
+        <div class="card-modern">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h5 style="font-weight: 800; font-size: 12px; margin: 0; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em;">
+              RECENT INVOICES &amp; ORDERS
+            </h5>
+            <button class="btn btn-outline btn-sm" onclick="switchView('orders')">View All Orders</button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="table-modern">
               <thead>
                 <tr>
-                  <th>Invoice ID</th>
+                  <th>Order #</th>
                   <th>Customer</th>
                   <th>Date</th>
                   <th>Amount</th>
-                  <th>Payment</th>
                   <th>Status</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td><code style="color:var(--emerald);">INV-2026-084</code></td>
-                  <td>Acme Logistics Corp</td>
-                  <td>Today, 10:45 AM</td>
-                  <td>$1,450.00</td>
-                  <td>Bank Transfer</td>
-                  <td><span class="status-pill pill-green">Paid</span></td>
-                </tr>
-                <tr>
-                  <td><code style="color:var(--emerald);">INV-2026-083</code></td>
-                  <td>Zenith Design Studio</td>
-                  <td>Yesterday</td>
-                  <td>$680.00</td>
-                  <td>Credit Card</td>
-                  <td><span class="status-pill pill-green">Paid</span></td>
-                </tr>
-                <tr>
-                  <td><code style="color:var(--emerald);">INV-2026-082</code></td>
-                  <td>Apex Cyber Solutions</td>
-                  <td>18 Sep 2026</td>
-                  <td>$2,890.00</td>
-                  <td>PayPal / Stripe</td>
-                  <td><span class="status-pill pill-amber">Pending</span></td>
-                </tr>
-                <tr>
-                  <td><code style="color:var(--emerald);">INV-2026-081</code></td>
-                  <td>Nova Cloud Systems</td>
-                  <td>17 Sep 2026</td>
-                  <td>$420.00</td>
-                  <td>Cash / POS</td>
-                  <td><span class="status-pill pill-green">Paid</span></td>
-                </tr>
+              <tbody id="dashRecentOrdersBody">
+                <!-- Dynamically Populated -->
               </tbody>
             </table>
           </div>
         </div>
+      </section>
 
-        <!-- TAB 2: INVENTORY -->
-        <div class="tab-content" id="tab-inventory">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; flex-wrap:wrap; gap:12px;">
-            <div style="display:flex; gap:10px; align-items:center;">
-              <input type="text" id="invSearch" placeholder="Search inventory SKUs..." class="form-control" style="width:240px; padding:8px 12px; font-size:0.82rem;" onkeyup="filterInventoryTable()">
-            </div>
-            <button class="btn btn-emerald btn-sm" onclick="addNewProductPrompt()">
-              <span>+</span> Add New Product
+      <!-- ──────────────────────────────────────
+           VIEW 2: PRODUCTS (From product.php & products.png 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-products" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>Products</div>
+          <button class="btn btn-primary btn-sm" onclick="openGenericModal('product')">
+            <i class="fa fa-plus"></i> Add Product
+          </button>
+        </div>
+
+        <!-- Stats Strip -->
+        <div class="prod-stats">
+          <div class="pstat" style="border-top: 3px solid var(--primary);">
+            <div class="pstat-label">TOTAL PRODUCTS</div>
+            <div class="pstat-val" id="prodTotalCount">6</div>
+            <i class="fa fa-boxes-stacked pstat-icon" style="color: var(--primary);"></i>
+          </div>
+          <div class="pstat" style="border-top: 3px solid hsl(0, 84%, 60%);">
+            <div class="pstat-label">OUT OF STOCK</div>
+            <div class="pstat-val" style="color: hsl(0, 84%, 60%);" id="prodOutCount">0</div>
+            <i class="fa fa-ban pstat-icon" style="color: hsl(0, 84%, 60%);"></i>
+          </div>
+          <div class="pstat" style="border-top: 3px solid hsl(38, 92%, 50%);">
+            <div class="pstat-label">LOW STOCK (&lt;10)</div>
+            <div class="pstat-val" style="color: hsl(38, 92%, 50%);" id="prodLowCount">1</div>
+            <i class="fa fa-triangle-exclamation pstat-icon" style="color: hsl(38, 92%, 50%);"></i>
+          </div>
+          <div class="pstat" style="border-top: 3px solid hsl(142, 71%, 45%);">
+            <div class="pstat-label">INVENTORY VALUE</div>
+            <div class="pstat-val" style="color: hsl(142, 71%, 45%);" id="prodValueCount">₹74,480</div>
+            <i class="fa fa-indian-rupee-sign pstat-icon" style="color: hsl(142, 71%, 45%);"></i>
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="search-inner">
+            <i class="fa fa-search"></i>
+            <input type="text" id="productSearchInput" class="search-input" placeholder="Search products by name or category..." oninput="filterProducts()">
+          </div>
+          <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+            <button class="cat-chip active" onclick="setProductFilter('all', this)">All</button>
+            <button class="cat-chip" onclick="setProductFilter('Beverages', this)">Beverages</button>
+            <button class="cat-chip" onclick="setProductFilter('Electronics', this)">Electronics</button>
+            <button class="cat-chip" onclick="setProductFilter('Networking', this)">Networking</button>
+            <button class="cat-chip warning" onclick="setProductFilter('low', this)">
+              <i class="fa fa-triangle-exclamation"></i> Low Stock
             </button>
+            <button class="cat-chip danger" onclick="setProductFilter('out', this)">
+              <i class="fa fa-ban"></i> Out of Stock
+            </button>
+            <span style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-left: 8px;" id="prodFilterCountLabel">6 products</span>
           </div>
-
-          <div class="demo-table-wrap">
-            <table class="demo-table" id="inventoryTable">
-              <thead>
-                <tr>
-                  <th>Product SKU</th>
-                  <th>Name &amp; Details</th>
-                  <th>Category</th>
-                  <th>Stock Count</th>
-                  <th>Unit Price</th>
-                  <th>Status</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody id="inventoryTableBody">
-                <tr id="prod-row-1">
-                  <td><code>SKU-1001</code></td>
-                  <td><strong>Industrial Fiber Router</strong></td>
-                  <td>Networking</td>
-                  <td>42 units</td>
-                  <td>$280.00</td>
-                  <td><span class="status-pill pill-green">In Stock</span></td>
-                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-1', 'Industrial Fiber Router')">Delete (AJAX)</button></td>
-                </tr>
-                <tr id="prod-row-2">
-                  <td><code>SKU-1002</code></td>
-                  <td><strong>Cat6e Shielded Cable (305m)</strong></td>
-                  <td>Cabling</td>
-                  <td>8 reels</td>
-                  <td>$120.00</td>
-                  <td><span class="status-pill pill-amber">Low Stock</span></td>
-                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-2', 'Cat6e Cable')">Delete (AJAX)</button></td>
-                </tr>
-                <tr id="prod-row-3">
-                  <td><code>SKU-1003</code></td>
-                  <td><strong>Thermal Receipt Printer Pro</strong></td>
-                  <td>POS Hardware</td>
-                  <td>26 units</td>
-                  <td>$195.00</td>
-                  <td><span class="status-pill pill-green">In Stock</span></td>
-                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-3', 'Thermal Printer')">Delete (AJAX)</button></td>
-                </tr>
-                <tr id="prod-row-4">
-                  <td><code>SKU-1004</code></td>
-                  <td><strong>Smart Barcode Scanner Wireless</strong></td>
-                  <td>POS Hardware</td>
-                  <td>0 units</td>
-                  <td>$85.00</td>
-                  <td><span class="status-pill pill-rose">Out of Stock</span></td>
-                  <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('prod-row-4', 'Barcode Scanner')">Delete (AJAX)</button></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p style="font-size:0.75rem; color:var(--text-dim); margin-top:10px;">
-            💡 <strong>Instant AJAX Demo:</strong> Click "Delete (AJAX)" on any row to watch seamless zero-page-reload deletion animation with instant live database response.
-          </p>
         </div>
 
-        <!-- TAB 3: POS BILLING & INVOICES -->
-        <div class="tab-content" id="tab-pos">
-          <div class="pos-grid">
-            <!-- Left: Order Items Builder -->
-            <div class="pos-panel">
-              <h4><span>🛒</span> Create New Invoice</h4>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Customer Name</label>
-                  <input type="text" class="form-control" id="posCustName" value="John Doe Enterprises">
+        <!-- Product Cards Grid -->
+        <div class="product-grid" id="productCardContainer">
+          <!-- Dynamically Injected -->
+        </div>
+      </section>
+
+      <!-- ──────────────────────────────────────
+           VIEW 3: SELL / POS INVOICING (From sell.php 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-sell" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>
+            New Sale &amp; Point of Sale
+            <div style="font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 4px;">
+              Select items, choose customer, and generate printable invoice with 1-click WhatsApp link
+            </div>
+          </div>
+        </div>
+
+        <div class="sell-layout">
+          <!-- Left Sidebar: Customer & Order Summary -->
+          <div class="sell-sidebar">
+            <!-- Customer Selector -->
+            <div class="info-block">
+              <div class="info-block-header">CUSTOMER ACCOUNT</div>
+              <div class="info-block-body">
+                <div class="customer-pill">
+                  <div class="customer-pill-avatar" id="sellCustAvatar">J</div>
+                  <div>
+                    <div style="font-weight: 800; font-size: 15px;" id="sellCustName">John Doe</div>
+                    <div style="font-size: 12px; color: var(--text-muted);" id="sellCustPhone">+1 (555) 019-2834</div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Customer Mobile (for WhatsApp)</label>
-                  <input type="text" class="form-control" id="posCustPhone" value="+919876543210">
+                <select class="customer-select-dropdown" id="sellCustomerSelect" onchange="onCustomerSelectChange(this.value)">
+                  <!-- Injected -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Payment Selector -->
+            <div class="info-block">
+              <div class="info-block-header">PAYMENT STATUS</div>
+              <div class="info-block-body">
+                <div class="payment-selector">
+                  <div class="pay-option active-paid" id="optPaid" onclick="setPaymentMode('paid')">
+                    <i class="fa fa-circle-check"></i> Paid
+                  </div>
+                  <div class="pay-option" id="optPending" onclick="setPaymentMode('pending')">
+                    <i class="fa fa-clock"></i> Pending
+                  </div>
                 </div>
               </div>
+            </div>
 
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label">Add Product Item</label>
-                  <select class="form-control" id="posProductSelect">
-                    <option value="Thermal Receipt Printer Pro|195">Thermal Receipt Printer Pro ($195)</option>
-                    <option value="Industrial Fiber Router|280">Industrial Fiber Router ($280)</option>
-                    <option value="Cat6e Shielded Cable (305m)|120">Cat6e Shielded Cable ($120)</option>
-                    <option value="Cloud Maintenance Retainer|450">Cloud Maintenance Retainer ($450)</option>
-                  </select>
+            <!-- Live Order Summary -->
+            <div class="info-block">
+              <div class="info-block-header">ORDER SUMMARY</div>
+              <div class="info-block-body">
+                <ul class="order-summary-lines" id="posSummaryLines">
+                  <li style="color: var(--text-muted); justify-content: center; padding: 20px 0;">No items selected</li>
+                </ul>
+
+                <div style="margin-top: 14px; padding-top: 10px; border-top: 1px dashed var(--border); font-size: 12.5px;">
+                  <div style="display: flex; justify-content: space-between; margin-bottom: 6px; color: var(--text-muted);">
+                    <span>Subtotal</span>
+                    <span id="posSubtotal">₹0.00</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between; color: var(--text-muted);">
+                    <span>GST / VAT (18%)</span>
+                    <span id="posTax">₹0.00</span>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label class="form-label">Quantity</label>
-                  <input type="number" class="form-control" id="posQty" value="1" min="1" max="100">
+
+                <div class="grand-total-row">
+                  <span class="gt-label">Grand Total</span>
+                  <span class="gt-val" id="posGrandTotal">₹0.00</span>
                 </div>
+
+                <button class="btn btn-primary" style="width: 100%; margin-top: 16px; padding: 14px; font-size: 15px;" onclick="completeSaleAndShowInvoice()">
+                  <i class="fa fa-file-invoice"></i> Generate Bill &amp; Invoice
+                </button>
               </div>
+            </div>
+          </div>
 
-              <button class="btn btn-glass btn-sm" onclick="addItemToInvoice()" style="margin-bottom:16px;">
-                <span>+</span> Add Item to Bill
-              </button>
-
-              <table class="pos-items-table">
+          <!-- Right Table: Product Selector -->
+          <div class="product-table-wrap">
+            <div class="pt-header">
+              <div style="font-weight: 800; font-size: 14px;">AVAILABLE PRODUCTS</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Check items to add to current bill</div>
+            </div>
+            <div style="overflow-x: auto;">
+              <table class="table-modern">
                 <thead>
                   <tr>
-                    <th>Item Description</th>
-                    <th>Qty</th>
-                    <th>Rate</th>
-                    <th>Amount</th>
-                    <th>Action</th>
+                    <th style="width: 40px;">Select</th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th style="width: 120px;">Quantity</th>
                   </tr>
                 </thead>
-                <tbody id="posItemsBody">
-                  <tr>
-                    <td>Thermal Receipt Printer Pro</td>
-                    <td>1</td>
-                    <td>$195.00</td>
-                    <td>$195.00</td>
-                    <td><button onclick="removePosItem(this, 195)" style="background:none; border:none; color:var(--rose); cursor:pointer;">×</button></td>
-                  </tr>
-                  <tr>
-                    <td>Cat6e Shielded Cable (305m)</td>
-                    <td>2</td>
-                    <td>$120.00</td>
-                    <td>$240.00</td>
-                    <td><button onclick="removePosItem(this, 240)" style="background:none; border:none; color:var(--rose); cursor:pointer;">×</button></td>
-                  </tr>
+                <tbody id="posProductTableBody">
+                  <!-- Dynamically Injected -->
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <!-- Right: Calculation & Dispatch Summary -->
-            <div class="pos-panel">
-              <h4><span>📄</span> Invoice Summary</h4>
-              <div class="form-group">
-                <label class="form-label">Invoice Number</label>
-                <input type="text" class="form-control" id="posInvNum" value="INV-2026-085" readonly style="font-family:var(--font-mono); color:var(--emerald);">
+      <!-- ──────────────────────────────────────
+           VIEW 4: CUSTOMERS (From customer.php 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-customers" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>Customers</div>
+          <button class="btn btn-success btn-sm" onclick="openGenericModal('customer')">
+            <i class="fa fa-plus"></i> Add Customer
+          </button>
+        </div>
+
+        <div class="product-grid" id="customerContainer">
+          <!-- Injected -->
+        </div>
+      </section>
+
+      <!-- ──────────────────────────────────────
+           VIEW 5: VENDORS (From vendors.php 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-vendors" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>Vendors &amp; Suppliers</div>
+          <button class="btn btn-primary btn-sm" onclick="openGenericModal('vendor')">
+            <i class="fa fa-plus"></i> Add Vendor
+          </button>
+        </div>
+
+        <div class="product-grid" id="vendorContainer">
+          <!-- Injected -->
+        </div>
+      </section>
+
+      <!-- ──────────────────────────────────────
+           VIEW 6: ORDERS (From orders.php 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-orders" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>Orders &amp; Invoices Ledger</div>
+          <button class="btn btn-primary btn-sm" onclick="switchView('sell')">
+            <i class="fa fa-plus"></i> Create New Order
+          </button>
+        </div>
+
+        <!-- Orders Stats -->
+        <div class="prod-stats" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="pstat" style="border-top: 3px solid var(--primary);">
+            <div class="pstat-label">TOTAL ORDERS</div>
+            <div class="pstat-val" id="ordTotalCount">5</div>
+            <i class="fa fa-receipt pstat-icon" style="color: var(--primary);"></i>
+          </div>
+          <div class="pstat" style="border-top: 3px solid hsl(142, 71%, 45%);">
+            <div class="pstat-label">TOTAL REVENUE</div>
+            <div class="pstat-val" style="color: hsl(142, 71%, 45%);" id="ordTotalRev">₹38,250</div>
+            <i class="fa fa-indian-rupee-sign pstat-icon" style="color: hsl(142, 71%, 45%);"></i>
+          </div>
+          <div class="pstat" style="border-top: 3px solid hsl(199, 89%, 48%);">
+            <div class="pstat-label">PAID ORDERS</div>
+            <div class="pstat-val" id="ordPaidCount">4</div>
+            <i class="fa fa-check pstat-icon" style="color: hsl(199, 89%, 48%);"></i>
+          </div>
+          <div class="pstat" style="border-top: 3px solid hsl(38, 92%, 50%);">
+            <div class="pstat-label">PENDING ORDERS</div>
+            <div class="pstat-val" style="color: hsl(38, 92%, 50%);" id="ordPendingCount">1</div>
+            <i class="fa fa-clock pstat-icon" style="color: hsl(38, 92%, 50%);"></i>
+          </div>
+        </div>
+
+        <div class="card-modern">
+          <div style="overflow-x: auto;">
+            <table class="table-modern">
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Phone</th>
+                  <th>Date</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="ordersFullTableBody">
+                <!-- Injected -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ──────────────────────────────────────
+           VIEW 7: REPORTS (From reports.php 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-reports" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>Financial Analytics &amp; Reports</div>
+          <button class="btn btn-outline btn-sm" onclick="window.print()">
+            <i class="fa fa-print"></i> Export Report
+          </button>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="card-modern">
+            <div class="stat-label">MONTHLY REVENUE</div>
+            <div class="stat-number" style="color: hsl(142, 71%, 45%);">₹1,42,800</div>
+            <div style="font-size: 12px; color: var(--text-muted);">+18.4% compared to previous month</div>
+          </div>
+          <div class="card-modern">
+            <div class="stat-label">NET PROFIT MARGIN</div>
+            <div class="stat-number" style="color: hsl(248, 85%, 65%);">34.2%</div>
+            <div style="font-size: 12px; color: var(--text-muted);">After operational &amp; tax deductions</div>
+          </div>
+          <div class="card-modern">
+            <div class="stat-label">COLLECTION RATE</div>
+            <div class="stat-number" style="color: hsl(199, 89%, 48%);">96.8%</div>
+            <div style="font-size: 12px; color: var(--text-muted);">On-time settled customer receivables</div>
+          </div>
+          <div class="card-modern">
+            <div class="stat-label">AVG BASKET VALUE</div>
+            <div class="stat-number" style="color: hsl(38, 92%, 50%);">₹7,650</div>
+            <div style="font-size: 12px; color: var(--text-muted);">Across retail and enterprise orders</div>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+          <div class="card-modern">
+            <h5 style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;">
+              CATEGORY PERFORMANCE
+            </h5>
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px;">
+                  <span>Networking &amp; Hardware</span>
+                  <span>52% (₹74,250)</span>
+                </div>
+                <div class="stock-bar"><div class="stock-bar-fill" style="width: 52%; background: var(--primary);"></div></div>
               </div>
-
-              <div class="pos-totals">
-                <div class="pos-total-row">
-                  <span>Subtotal:</span>
-                  <span id="posSubtotal">$435.00</span>
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px;">
+                  <span>Electronics &amp; POS Gear</span>
+                  <span>31% (₹44,260)</span>
                 </div>
-                <div class="pos-total-row">
-                  <span>Tax (18% GST / VAT):</span>
-                  <span id="posTax">$78.30</span>
-                </div>
-                <div class="pos-total-row grand">
-                  <span>Grand Total:</span>
-                  <span id="posGrandTotal" style="color:var(--emerald);">$513.30</span>
-                </div>
+                <div class="stock-bar"><div class="stock-bar-fill" style="width: 31%; background: var(--info);"></div></div>
               </div>
+              <div>
+                <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700; margin-bottom: 4px;">
+                  <span>Consumables &amp; Beverages</span>
+                  <span>17% (₹24,290)</span>
+                </div>
+                <div class="stock-bar"><div class="stock-bar-fill" style="width: 17%; background: var(--success);"></div></div>
+              </div>
+            </div>
+          </div>
 
-              <div style="display:flex; flex-direction:column; gap:10px; margin-top:20px;">
-                <button class="btn btn-emerald" onclick="openInvoicePreviewModal()" style="justify-content:center;">
-                  <span>🖨️</span> Generate Printable PDF Invoice
-                </button>
-                <button class="btn btn-glass" onclick="dispatchWhatsAppInvoice()" style="justify-content:center; border-color:#25d366; color:#25d366;">
-                  <span>💬</span> Send Direct via WhatsApp
-                </button>
+          <div class="card-modern">
+            <h5 style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px;">
+              SYSTEM VITALS
+            </h5>
+            <div style="display: flex; flex-direction: column; gap: 12px; font-size: 13px;">
+              <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                <span style="color: var(--text-muted);">Database Engine</span>
+                <span style="font-weight: 700;">MySQL 8.0 / InnoDB</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                <span style="color: var(--text-muted);">Backend Framework</span>
+                <span style="font-weight: 700;">PHP 8.2 + Prepared PDO Statements</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; padding-bottom: 8px; border-bottom: 1px solid var(--border);">
+                <span style="color: var(--text-muted);">Client Architecture</span>
+                <span style="font-weight: 700;">Zero-Reload AJAX + Glassmorphic UI</span>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">Invoice Engine</span>
+                <span style="font-weight: 700;">Automated PDF + WhatsApp API Dispatch</span>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        <!-- TAB 4: CUSTOMERS & CRM -->
-        <div class="tab-content" id="tab-crm">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <h4>Client Accounts &amp; Ledger</h4>
-            <button class="btn btn-emerald btn-sm" onclick="alert('Client account modal simulated: Ready to insert new record via prepared MySQL statements.')">
-              <span>+</span> New Client
-            </button>
-          </div>
-
-          <div class="demo-table-wrap">
-            <table class="demo-table">
-              <thead>
-                <tr>
-                  <th>Client ID</th>
-                  <th>Company / Client</th>
-                  <th>Contact Email</th>
-                  <th>Phone Number</th>
-                  <th>Total Orders</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>CUST-01</code></td>
-                  <td><strong>Acme Logistics Corp</strong></td>
-                  <td>billing@acmelogistics.com</td>
-                  <td>+1 555-0192</td>
-                  <td>24 Invoices</td>
-                  <td><span class="status-pill pill-green">Active</span></td>
-                </tr>
-                <tr>
-                  <td><code>CUST-02</code></td>
-                  <td><strong>Zenith Design Studio</strong></td>
-                  <td>accounts@zenithstudio.io</td>
-                  <td>+1 555-4820</td>
-                  <td>12 Invoices</td>
-                  <td><span class="status-pill pill-green">Active</span></td>
-                </tr>
-                <tr>
-                  <td><code>CUST-03</code></td>
-                  <td><strong>Apex Cyber Solutions</strong></td>
-                  <td>security@apexcyber.net</td>
-                  <td>+91 9876543210</td>
-                  <td>18 Invoices</td>
-                  <td><span class="status-pill pill-green">Active</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <!-- ──────────────────────────────────────
+           VIEW 8: SETTINGS (From settings.php 1-to-1)
+      ────────────────────────────────────── -->
+      <section id="view-settings" class="app-view" style="display: none;">
+        <div class="page-header">
+          <div>Settings &amp; Configuration</div>
         </div>
 
-        <!-- TAB 5: VENDORS -->
-        <div class="tab-content" id="tab-vendors">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
-            <h4>Authorized Supply Chain Vendors</h4>
-            <button class="btn btn-emerald btn-sm" onclick="alert('Vendor registration modal: Register suppliers with GSTIN, terms, and payment cycles.')">
-              <span>+</span> Register Vendor
-            </button>
+        <div class="card-modern" style="max-width: 680px;">
+          <h5 style="font-weight: 800; font-size: 13px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 18px;">
+            BUSINESS &amp; INVOICE SETTINGS
+          </h5>
+
+          <div class="form-group">
+            <label>Business Name</label>
+            <input type="text" class="form-control" id="cfgBusinessName" value="Arboshiki / Billcraft Enterprises">
+          </div>
+          <div class="form-group">
+            <label>Address Line</label>
+            <input type="text" class="form-control" id="cfgAddress" value="455 Foggy Heights, AZ 85004, US">
+          </div>
+          <div class="form-group">
+            <label>Support Phone / WhatsApp</label>
+            <input type="text" class="form-control" id="cfgPhone" value="+1 (123) 456-7890">
+          </div>
+          <div class="form-group">
+            <label>Currency Symbol</label>
+            <input type="text" class="form-control" id="cfgCurrency" value="₹">
+          </div>
+          <div class="form-group">
+            <label>Tax Rate (%)</label>
+            <input type="number" class="form-control" id="cfgTaxRate" value="18">
           </div>
 
-          <div class="demo-table-wrap">
-            <table class="demo-table">
-              <thead>
-                <tr>
-                  <th>Vendor ID</th>
-                  <th>Supplier Name</th>
-                  <th>Category</th>
-                  <th>Outstanding Balance</th>
-                  <th>Last Restock</th>
-                  <th>Payment Term</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>VEND-101</code></td>
-                  <td>Global Microchip Hardware Ltd</td>
-                  <td>Electronics &amp; POS</td>
-                  <td>$4,200.00</td>
-                  <td>12 Sep 2026</td>
-                  <td>Net 30</td>
-                </tr>
-                <tr>
-                  <td><code>VEND-102</code></td>
-                  <td>Pacific Paper &amp; Packaging Inc</td>
-                  <td>Thermal Rolls / Consumables</td>
-                  <td>$320.00</td>
-                  <td>15 Sep 2026</td>
-                  <td>Net 15</td>
-                </tr>
-                <tr>
-                  <td><code>VEND-103</code></td>
-                  <td>OmniConnect Cables Distribution</td>
-                  <td>Networking Hardware</td>
-                  <td>$0.00</td>
-                  <td>08 Sep 2026</td>
-                  <td>Prepaid</td>
-                </tr>
-              </tbody>
-            </table>
+          <button class="btn btn-primary" onclick="saveSettings()">
+            <i class="fa fa-save"></i> Save Settings
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       INVOICE MODAL (bill.html 1-to-1)
+  ══════════════════════════════════════ -->
+  <div class="invoice-modal-backdrop" id="invoiceModal">
+    <div class="invoice-modal-window">
+      <div class="invoice-modal-toolbar">
+        <div style="font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+          <i class="fa fa-file-invoice" style="color: hsl(248, 85%, 65%);"></i> Invoice Preview
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="window.print()" class="btn btn-outline btn-sm" style="background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2);">
+            <i class="fa fa-print"></i> Print
+          </button>
+          <button id="invoiceWhatsAppBtn" class="btn btn-success btn-sm">
+            <i class="fa-brands fa-whatsapp"></i> Send on WhatsApp
+          </button>
+          <button onclick="closeInvoiceModal()" class="btn btn-outline btn-sm" style="background: transparent; color: #fff; border-color: rgba(255,255,255,0.2);">
+            <i class="fa fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="invoice-modal-body" id="invoicePrintArea">
+        <!-- Invoice Header -->
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 2px solid #0d6efd; margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; border-radius: 10px; background: #0f172a; display: flex; align-items: center; justify-content: center;">
+              <img src="logo.png" style="width: 32px; height: 32px; object-fit: contain;" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/0xSHARON/billcraft/main/logo.png';">
+            </div>
+            <div>
+              <h2 style="font-size: 22px; font-weight: 900; margin: 0; color: #0f172a;" id="invCompanyName">Arboshiki</h2>
+              <div style="font-size: 12px; color: #64748b;" id="invCompanyAddr">455 Foggy Heights, AZ 85004, US</div>
+              <div style="font-size: 12px; color: #64748b;" id="invCompanyPhone">(123) 456-7890 | billing@arboshiki.com</div>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <h1 style="font-size: 20px; font-weight: 900; color: #0d6efd; margin: 0 0 6px;" id="invCode">INVOICE 3-2-1</h1>
+            <div style="font-size: 12px; color: #64748b;" id="invDate">Date: 01/10/2026</div>
+            <div style="font-size: 12px; color: #16a34a; font-weight: 700;" id="invStatus">Status: PAID</div>
           </div>
         </div>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: CORE FEATURES -->
-  <section class="section-wrap" id="features">
-    <div class="section-head">
-      <span class="section-tag">Enterprise Capabilities</span>
-      <h2 class="section-title">Built for Real-World Speed</h2>
-      <p class="section-subtitle">
-        Engineered with a laser focus on productivity: zero-overhead PHP 8 architecture, responsive micro-animations, and instant operations.
-      </p>
-    </div>
-
-    <div class="features-grid">
-      <!-- Feature 1 -->
-      <div class="feature-card">
-        <div class="feature-icon-box">⚡</div>
-        <h3 class="feature-title">Instant AJAX Operations</h3>
-        <p class="feature-desc">
-          Zero page reloads when managing critical records. Deleting customers, archiving products, or updating inventory triggers smooth fade-out animations with instant database synchronisation.
-        </p>
-      </div>
-
-      <!-- Feature 2 -->
-      <div class="feature-card">
-        <div class="feature-icon-box">📄</div>
-        <h3 class="feature-title">Automated PDF Invoicing</h3>
-        <p class="feature-desc">
-          Generate clean, professional print-ready invoices instantaneously after every transaction. Formatted with customizable tax breakdowns, company headers, and digital signatures.
-        </p>
-      </div>
-
-      <!-- Feature 3 -->
-      <div class="feature-card">
-        <div class="feature-icon-box">💬</div>
-        <h3 class="feature-title">1-Click WhatsApp Delivery</h3>
-        <p class="feature-desc">
-          Direct WhatsApp Business API integration allows one-click dispatch of invoice receipts and payment reminder summaries directly to customer handsets.
-        </p>
-      </div>
-
-      <!-- Feature 4 -->
-      <div class="feature-card">
-        <div class="feature-icon-box">📦</div>
-        <h3 class="feature-title">Smart Inventory &amp; Stock Alerts</h3>
-        <p class="feature-desc">
-          Track products across multiple warehouses with dynamic stock threshold monitoring. Visual color-coded alerts flag low stock before sales bottlenecks occur.
-        </p>
-      </div>
-
-      <!-- Feature 5 -->
-      <div class="feature-card">
-        <div class="feature-icon-box">👥</div>
-        <h3 class="feature-title">Integrated CRM &amp; Vendors</h3>
-        <p class="feature-desc">
-          Maintain full ledgers for both buyers and suppliers. Monitor accounts receivable, purchase orders, customer transaction histories, and supplier payment terms.
-        </p>
-      </div>
-
-      <!-- Feature 6 -->
-      <div class="feature-card">
-        <div class="feature-icon-box">🔒</div>
-        <h3 class="feature-title">Hardened Security Architecture</h3>
-        <p class="feature-desc">
-          All SQL database transactions utilize Prepared Statements (PDO/MySQLi) preventing injection attacks. Administrative authentication is guarded by Bcrypt password hashing.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: SCREENSHOTS -->
-  <section class="section-wrap" id="preview">
-    <div class="section-head">
-      <span class="section-tag">Visual Verification</span>
-      <h2 class="section-title">Production Interface</h2>
-      <p class="section-subtitle">
-        Actual screenshots captured directly from the live Billcraft installation.
-      </p>
-    </div>
-
-    <div class="preview-showcase">
-      <div class="preview-frame">
-        <img src="dashboard.png" alt="Billcraft Dashboard Overview" onerror="this.parentElement.innerHTML='<div style=\'padding:40px; text-align:center; color:var(--text-dim);\'>[dashboard.png image preview]</div>'">
-        <div class="preview-caption">Executive Dashboard: Real-Time Analytics &amp; Revenue Gauges</div>
-      </div>
-
-      <div class="preview-frame">
-        <img src="products.png" alt="Billcraft Product Inventory Management" onerror="this.parentElement.innerHTML='<div style=\'padding:40px; text-align:center; color:var(--text-dim);\'>[products.png image preview]</div>'">
-        <div class="preview-caption">Products Management: Real-Time Stock Status &amp; Instant AJAX Controls</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION: INSTALLATION -->
-  <section class="section-wrap" id="install">
-    <div class="section-head">
-      <span class="section-tag">Deploy Locally</span>
-      <h2 class="section-title">Get Up and Running in 2 Minutes</h2>
-      <p class="section-subtitle">
-        Self-host Billcraft on any standard LAMP/WAMP/XAMPP stack or Linux VPS.
-      </p>
-    </div>
-
-    <div class="quickstart-box">
-      <div class="quickstart-comment"># 1. Clone the repository into your web root (htdocs or /var/www/html)</div>
-      <div class="quickstart-code">git clone https://github.com/0xSHARON/billcraft.git</div>
-      <div class="quickstart-code">cd billcraft</div>
-      <br>
-      <div class="quickstart-comment"># 2. Create the database and import schema</div>
-      <div class="quickstart-code">mysql -u root -p -e "CREATE DATABASE billcraft;"</div>
-      <div class="quickstart-code">mysql -u root -p billcraft &lt; billcraft.sql</div>
-      <br>
-      <div class="quickstart-comment"># 3. Configure your database credentials in connection.php</div>
-      <div class="quickstart-code">$con = mysqli_connect("localhost", "your_user", "your_password", "billcraft");</div>
-      <br>
-      <div class="quickstart-comment"># 4. Open in browser at http://localhost/billcraft</div>
-      <div class="quickstart-comment"># Default Admin Login: Username: admin | Password: admin</div>
-    </div>
-  </section>
-
-  <!-- PRINTABLE INVOICE MODAL -->
-  <div class="modal-backdrop" id="invoiceModalBackdrop">
-    <div class="invoice-card-modal">
-      <div class="inv-head">
-        <div>
-          <div class="inv-logo-title">💎 BILLCRAFT ENTERPRISES</div>
-          <div style="font-size:0.8rem; color:#64748b;">Premium Invoicing &amp; Operations</div>
-          <div style="font-size:0.75rem; color:#94a3b8; margin-top:4px;">Maharashtra, India • support@billcraft.local</div>
+        <!-- Contact details -->
+        <div style="display: flex; justify-content: space-between; margin-bottom: 24px;">
+          <div>
+            <div style="font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase;">INVOICE TO:</div>
+            <h3 style="font-size: 17px; font-weight: 800; margin: 4px 0 2px; color: #0f172a;" id="invCustomerName">John Doe</h3>
+            <div style="font-size: 12px; color: #64748b;" id="invCustomerAddr">796 Silver Harbour, TX 79273, US</div>
+            <div style="font-size: 12px; color: #64748b;" id="invCustomerPhone">+1 (555) 019-2834</div>
+          </div>
         </div>
-        <div class="inv-meta">
-          <div style="font-size:1.1rem; font-weight:800; color:#0f172a;" id="modalInvNumber">INV-2026-085</div>
-          <div>Date: <span id="modalInvDate">20 Sep 2026</span></div>
-          <div>Status: <strong style="color:#10b981;">PAID IN FULL</strong></div>
+
+        <!-- Table -->
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+          <thead>
+            <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+              <th style="padding: 10px 12px; text-align: left; font-size: 11px; color: #64748b; font-weight: 800;">#</th>
+              <th style="padding: 10px 12px; text-align: left; font-size: 11px; color: #64748b; font-weight: 800;">PRODUCT / SERVICE</th>
+              <th style="padding: 10px 12px; text-align: right; font-size: 11px; color: #64748b; font-weight: 800;">UNIT PRICE</th>
+              <th style="padding: 10px 12px; text-align: right; font-size: 11px; color: #64748b; font-weight: 800;">QTY</th>
+              <th style="padding: 10px 12px; text-align: right; font-size: 11px; color: #64748b; font-weight: 800;">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="invoiceItemsTableBody">
+            <!-- Dynamically populated -->
+          </tbody>
+          <tfoot>
+            <tr style="border-top: 2px solid #e2e8f0;">
+              <td colspan="3"></td>
+              <td style="padding: 8px 12px; text-align: right; font-size: 12px; font-weight: 700; color: #64748b;">SUBTOTAL</td>
+              <td style="padding: 8px 12px; text-align: right; font-size: 14px; font-weight: 800; color: #0f172a;" id="invModalSubtotal">₹0.00</td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td style="padding: 6px 12px; text-align: right; font-size: 12px; font-weight: 700; color: #64748b;" id="invModalTaxRateLabel">TAX 18%</td>
+              <td style="padding: 6px 12px; text-align: right; font-size: 14px; font-weight: 800; color: #0f172a;" id="invModalTax">₹0.00</td>
+            </tr>
+            <tr style="border-top: 1px solid #cbd5e1; background: #f8fafc;">
+              <td colspan="3"></td>
+              <td style="padding: 12px; text-align: right; font-size: 13px; font-weight: 900; color: #0f172a;">GRAND TOTAL</td>
+              <td style="padding: 12px; text-align: right; font-size: 18px; font-weight: 900; color: #0d6efd;" id="invModalGrandTotal">₹0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div style="font-size: 12px; color: #94a3b8; font-style: italic; text-align: center; margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 14px;">
+          Thank you for doing business with us! Invoice was created on a computer and is valid without signature.
         </div>
-      </div>
-
-      <div style="margin-bottom:16px; font-size:0.82rem; color:#334155;">
-        <strong>BILLED TO:</strong><br>
-        <span id="modalCustName" style="font-size:1rem; font-weight:700; color:#0f172a;">John Doe Enterprises</span><br>
-        Contact: <span id="modalCustPhone">+91 9876543210</span>
-      </div>
-
-      <table class="inv-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th style="text-align:right;">Amount</th>
-          </tr>
-        </thead>
-        <tbody id="modalItemsBody">
-          <tr>
-            <td>Thermal Receipt Printer Pro (x1)</td>
-            <td style="text-align:right;">$195.00</td>
-          </tr>
-          <tr>
-            <td>Cat6e Shielded Cable 305m (x2)</td>
-            <td style="text-align:right;">$240.00</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style="text-align:right; font-size:0.9rem; margin-top:16px;">
-        <div>Subtotal: <strong id="modalSubtotal">$435.00</strong></div>
-        <div>Tax (18%): <strong id="modalTax">$78.30</strong></div>
-        <div style="font-size:1.3rem; font-weight:800; color:#0f172a; margin-top:8px;">
-          Total: <span id="modalGrandTotal" style="color:#059669;">$513.30</span>
-        </div>
-      </div>
-
-      <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:28px; padding-top:16px; border-top:1px solid #f1f5f9;">
-        <button class="btn btn-glass" onclick="closeInvoiceModal()" style="color:#0f172a; border-color:#cbd5e1;">Close</button>
-        <button class="btn btn-emerald" onclick="window.print()">🖨️ Print / Save as PDF</button>
       </div>
     </div>
   </div>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div>
-        <div class="footer-brand-title">
-          <img src="logo.png" width="28" alt="" onerror="this.style.display='none'">
-          <span>Billcraft</span>
-        </div>
-        <p class="footer-desc">
-          Modern Business Management System designed for small-to-medium businesses. Open-source under MIT license.
-        </p>
+  <!-- ══════════════════════════════════════
+       GENERIC MODAL (ADD PRODUCT / CUSTOMER / VENDOR)
+  ══════════════════════════════════════ -->
+  <div class="generic-modal-backdrop" id="genericModal">
+    <div class="generic-modal-box">
+      <div class="generic-modal-header">
+        <span id="genModalTitle">Add New Item</span>
+        <button onclick="closeGenericModal()" style="background: none; border: none; font-size: 16px; color: var(--text-muted); cursor: pointer;">
+          <i class="fa fa-xmark"></i>
+        </button>
       </div>
-
-      <div class="footer-col">
-        <h4>Navigation</h4>
-        <ul>
-          <li><a href="#demo">Interactive Demo</a></li>
-          <li><a href="#features">Key Features</a></li>
-          <li><a href="#preview">Interface Previews</a></li>
-          <li><a href="#install">Setup Guide</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Project Links</h4>
-        <ul>
-          <li><a href="https://github.com/0xSHARON/billcraft" target="_blank">GitHub Repository</a></li>
-          <li><a href="https://0xsharon.github.io/" target="_blank">0xSHARON Portfolio</a></li>
-          <li><a href="https://0xsharon.github.io/cybermanagement" target="_blank">Cybermanagement Book</a></li>
-          <li><a href="https://0xsharon.github.io/sharzo/" target="_blank">SHARZO Android HUD</a></li>
-        </ul>
+      <div class="generic-modal-body" id="genModalBody">
+        <!-- Injected -->
       </div>
     </div>
+  </div>
 
-    <div class="footer-bottom">
-      <div>&copy; 2026 Billcraft // Developed by <a href="https://github.com/0xSHARON" target="_blank" style="color:var(--emerald); text-decoration:none; font-weight:700;">0xSHARON</a>. Released under MIT License.</div>
-      <div>OFFICIAL GITHUB PAGES PRODUCT DEMO</div>
-    </div>
-  </footer>
+  <!-- TOAST MESSAGE CONTAINER -->
+  <div class="toast-msg" id="appToast">
+    <i class="fa fa-circle-check" style="color: hsl(142,71%,45%);"></i>
+    <span id="toastText">Action completed successfully</span>
+  </div>
 
-  <!-- CLIENT-SIDE LOGIC -->
+  <!-- ══════════════════════════════════════
+       CORE JAVASCRIPT (Interactive Engine)
+  ══════════════════════════════════════ -->
   <script>
-    // TAB SWITCHER
-    function switchDemoTab(tabId, btn) {
-      document.querySelectorAll('.demo-tab-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+    /* ══════════════════════════════════════
+       STATE & INITIAL DEMO DATA
+    ══════════════════════════════════════ */
+    const DEFAULT_DATA = {
+      theme: 'dark',
+      currency: '₹',
+      taxRate: 18,
+      businessName: 'Arboshiki / Billcraft Enterprises',
+      address: '455 Foggy Heights, AZ 85004, US',
+      phone: '+1 (123) 456-7890',
+      products: [
+        { id: 1, name: '1L Water Bottle', category: 'Beverages', price: 18.00, stock: 80, icon: 'fa-bottle-water' },
+        { id: 2, name: 'Thermal Receipt Printer Pro', category: 'Electronics', price: 15400.00, stock: 14, icon: 'fa-print' },
+        { id: 3, name: 'Cat6e Shielded Cable (305m)', category: 'Networking', price: 6800.00, stock: 22, icon: 'fa-network-wired' },
+        { id: 4, name: 'Gigabit Switch 24-Port', category: 'Networking', price: 18900.00, stock: 5, icon: 'fa-server' },
+        { id: 5, name: 'Barcode Scanner Handheld USB', category: 'Electronics', price: 3450.00, stock: 18, icon: 'fa-barcode' },
+        { id: 6, name: 'Mineral Drink 500ml', category: 'Beverages', price: 25.00, stock: 120, icon: 'fa-wine-bottle' }
+      ],
+      customers: [
+        { id: 1, name: 'John Doe Enterprises', phone: '+1 (555) 019-2834', orders: 4, spent: 34500.00 },
+        { id: 2, name: 'Jane Smith Retails', phone: '+1 (555) 832-1109', orders: 2, spent: 12400.00 },
+        { id: 3, name: 'Apex Cybernetics Ltd', phone: '+1 (555) 920-4411', orders: 6, spent: 58900.00 },
+        { id: 4, name: 'Metro Logistics Group', phone: '+1 (555) 302-8877', orders: 3, spent: 21600.00 },
+        { id: 5, name: 'Silicon Valley Systems', phone: '+1 (555) 441-9922', orders: 1, spent: 18900.00 },
+        { id: 6, name: 'Omega Global Solutions', phone: '+1 (555) 773-1250', orders: 5, spent: 43200.00 }
+      ],
+      vendors: [
+        { id: 1, name: 'Acme Hardware Supplies', contact: 'Marcus Vance', phone: '+1 (800) 555-1020', email: 'sales@acmehardware.com', cat: 'Electronics' },
+        { id: 2, name: 'FiberLink Telecommunications', contact: 'Sarah Jenkins', phone: '+1 (800) 555-4030', email: 'orders@fiberlink.net', cat: 'Networking' },
+        { id: 3, name: 'PureAqua Beverages Dist.', contact: 'David Ross', phone: '+1 (800) 555-7090', email: 'dist@pureaqua.com', cat: 'Beverages' },
+        { id: 4, name: 'Prime Paper & Thermal Reels', contact: 'Elena Rostova', phone: '+1 (800) 555-8812', email: 'elena@primepaper.org', cat: 'Consumables' }
+      ],
+      orders: [
+        { id: '1048', customerId: 1, customerName: 'John Doe Enterprises', customerPhone: '+1 (555) 019-2834', date: '2026-04-07', total: 18172.00, status: 'paid', items: [{ name: 'Thermal Receipt Printer Pro', price: 15400.00, qty: 1 }] },
+        { id: '1047', customerId: 3, customerName: 'Apex Cybernetics Ltd', customerPhone: '+1 (555) 920-4411', date: '2026-04-06', total: 22302.00, status: 'paid', items: [{ name: 'Gigabit Switch 24-Port', price: 18900.00, qty: 1 }] },
+        { id: '1046', customerId: 2, customerName: 'Jane Smith Retails', customerPhone: '+1 (555) 832-1109', date: '2026-04-05', total: 8024.00, status: 'pending', items: [{ name: 'Cat6e Shielded Cable (305m)', price: 6800.00, qty: 1 }] },
+        { id: '1045', customerId: 4, customerName: 'Metro Logistics Group', customerPhone: '+1 (555) 302-8877', date: '2026-04-04', total: 4071.00, status: 'paid', items: [{ name: 'Barcode Scanner Handheld USB', price: 3450.00, qty: 1 }] },
+        { id: '1044', customerId: 6, customerName: 'Omega Global Solutions', customerPhone: '+1 (555) 773-1250', date: '2026-04-03', total: 1440.00, status: 'paid', items: [{ name: '1L Water Bottle', price: 18.00, qty: 80 }] }
+      ]
+    };
 
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.getElementById('tab-' + tabId).classList.add('active');
+    let appState = JSON.parse(localStorage.getItem('billcraft_demo_state')) || JSON.parse(JSON.stringify(DEFAULT_DATA));
+
+    function saveState() {
+      localStorage.setItem('billcraft_demo_state', JSON.stringify(appState));
     }
 
-    // SIMULATED AJAX DELETE WITH FADE OUT
-    function simulateAjaxDelete(rowId, name) {
-      const row = document.getElementById(rowId);
-      if (!row) return;
-      if (confirm(`Simulate AJAX Delete: Remove "${name}" without page reload?`)) {
-        row.classList.add('table-fade-out');
-        setTimeout(() => {
-          row.remove();
-        }, 300);
+    function resetDemoData() {
+      if (confirm('Reset all Billcraft demo records back to initial default state?')) {
+        appState = JSON.parse(JSON.stringify(DEFAULT_DATA));
+        saveState();
+        initAll();
+        showToast('Demo data successfully restored');
       }
     }
 
-    // SEARCH INVENTORY
-    function filterInventoryTable() {
-      const q = document.getElementById('invSearch').value.toLowerCase();
-      const rows = document.querySelectorAll('#inventoryTableBody tr');
-      rows.forEach(r => {
-        const text = r.textContent.toLowerCase();
-        r.style.display = text.includes(q) ? '' : 'none';
+    /* ══════════════════════════════════════
+       THEME MANAGEMENT
+    ══════════════════════════════════════ */
+    function applyTheme() {
+      if (appState.theme === 'dark') {
+        document.body.classList.add('dark');
+        document.getElementById('themeBtn').innerHTML = '<i class="fa fa-sun"></i>';
+      } else {
+        document.body.classList.remove('dark');
+        document.getElementById('themeBtn').innerHTML = '<i class="fa fa-moon"></i>';
+      }
+    }
+
+    function toggleTheme() {
+      appState.theme = appState.theme === 'dark' ? 'light' : 'dark';
+      saveState();
+      applyTheme();
+      showToast(`Switched to ${appState.theme} mode`);
+    }
+
+    /* ══════════════════════════════════════
+       VIEW NAVIGATION
+    ══════════════════════════════════════ */
+    let currentView = 'dashboard';
+
+    const viewTitles = {
+      dashboard: { title: 'Dashboard', icon: 'fa-gauge-high' },
+      vendors: { title: 'Vendors', icon: 'fa-truck-field' },
+      customers: { title: 'Customers', icon: 'fa-users' },
+      products: { title: 'Products', icon: 'fa-boxes-stacked' },
+      sell: { title: 'Sell (POS)', icon: 'fa-cart-plus' },
+      orders: { title: 'Orders', icon: 'fa-receipt' },
+      reports: { title: 'Reports', icon: 'fa-chart-bar' },
+      settings: { title: 'Settings', icon: 'fa-gear' }
+    };
+
+    function switchView(viewName) {
+      document.querySelectorAll('.app-view').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.sidebar ul li a').forEach(el => el.classList.remove('active'));
+
+      const targetView = document.getElementById(`view-${viewName}`);
+      if (targetView) targetView.style.display = 'block';
+
+      const navLink = document.getElementById(`nav-${viewName}`);
+      if (navLink) navLink.classList.add('active');
+
+      const info = viewTitles[viewName] || { title: viewName, icon: 'fa-gauge-high' };
+      document.getElementById('pageTitleDisplay').innerHTML = `<i class="fa ${info.icon}"></i> ${info.title}`;
+
+      currentView = viewName;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // Close mobile sidebar if open
+      document.getElementById('appSidebar').classList.remove('open');
+    }
+
+    function toggleMobileSidebar() {
+      document.getElementById('appSidebar').classList.toggle('open');
+    }
+
+    /* ══════════════════════════════════════
+       DASHBOARD LOGIC
+    ══════════════════════════════════════ */
+    function renderDashboard() {
+      document.getElementById('dashVendorsCount').textContent = appState.vendors.length;
+      document.getElementById('dashCustomersCount').textContent = appState.customers.length;
+      document.getElementById('dashProductsCount').textContent = appState.products.length;
+
+      const tbody = document.getElementById('dashRecentOrdersBody');
+      tbody.innerHTML = '';
+      appState.orders.slice(0, 5).forEach(o => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight: 800; font-family: monospace; color: var(--primary);">#${o.id}</td>
+          <td style="font-weight: 700;">${o.customerName}</td>
+          <td style="color: var(--text-muted); font-size: 12px;">${o.date}</td>
+          <td style="font-weight: 800;">${appState.currency}${o.total.toLocaleString()}</td>
+          <td>
+            <span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; 
+              ${o.status === 'paid' ? 'background: hsla(142,71%,45%,0.15); color: hsl(142,71%,45%); border:1px solid hsla(142,71%,45%,0.3);' : 'background: hsla(38,92%,50%,0.15); color: hsl(38,92%,50%); border:1px solid hsla(38,92%,50%,0.3);'}">
+              <i class="fa ${o.status === 'paid' ? 'fa-check' : 'fa-clock'}"></i> ${o.status.toUpperCase()}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick="showInvoiceForOrder('${o.id}')">
+              <i class="fa fa-file-invoice"></i> Bill
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
       });
     }
 
-    // ADD NEW PRODUCT PROMPT
-    function addNewProductPrompt() {
-      const name = prompt("Enter Product Name:", "Gigabit Ethernet Switch 8-Port");
-      if (!name) return;
-      const price = prompt("Enter Unit Price ($):", "65.00") || "65.00";
-      const sku = 'SKU-' + Math.floor(1000 + Math.random() * 9000);
+    /* ══════════════════════════════════════
+       PRODUCTS LOGIC (With AJAX Delete & Filter)
+    ══════════════════════════════════════ */
+    let currentProdCategory = 'all';
 
-      const tbody = document.getElementById('inventoryTableBody');
-      const tr = document.createElement('tr');
-      const rowId = 'prod-row-' + Date.now();
-      tr.id = rowId;
-      tr.innerHTML = `
-        <td><code>${sku}</code></td>
-        <td><strong>${name}</strong></td>
-        <td>Hardware</td>
-        <td>15 units</td>
-        <td>$${parseFloat(price).toFixed(2)}</td>
-        <td><span class="status-pill pill-green">In Stock</span></td>
-        <td><button class="btn btn-glass btn-sm" style="color:var(--rose); padding:4px 8px;" onclick="simulateAjaxDelete('${rowId}', '${name}')">Delete (AJAX)</button></td>
-      `;
-      tbody.prepend(tr);
+    function renderProducts() {
+      // Calculate stats
+      const total = appState.products.length;
+      const out = appState.products.filter(p => p.stock <= 0).length;
+      const low = appState.products.filter(p => p.stock > 0 && p.stock < 10).length;
+      const val = appState.products.reduce((acc, p) => acc + (p.price * p.stock), 0);
+
+      document.getElementById('prodTotalCount').textContent = total;
+      document.getElementById('prodOutCount').textContent = out;
+      document.getElementById('prodLowCount').textContent = low;
+      document.getElementById('prodValueCount').textContent = `${appState.currency}${Math.round(val).toLocaleString()}`;
+
+      filterProducts();
     }
 
-    // POS STATE & CALCULATIONS
-    let currentSubtotal = 435.00;
-
-    function addItemToInvoice() {
-      const select = document.getElementById('posProductSelect');
-      const [name, priceStr] = select.value.split('|');
-      const price = parseFloat(priceStr);
-      const qty = parseInt(document.getElementById('posQty').value) || 1;
-      const amount = price * qty;
-
-      const tbody = document.getElementById('posItemsBody');
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${name}</td>
-        <td>${qty}</td>
-        <td>$${price.toFixed(2)}</td>
-        <td>$${amount.toFixed(2)}</td>
-        <td><button onclick="removePosItem(this, ${amount})" style="background:none; border:none; color:var(--rose); cursor:pointer;">×</button></td>
-      `;
-      tbody.appendChild(tr);
-
-      currentSubtotal += amount;
-      recalculateTotals();
+    function setProductFilter(cat, btn) {
+      document.querySelectorAll('.filter-bar .cat-chip').forEach(el => el.classList.remove('active'));
+      btn.classList.add('active');
+      currentProdCategory = cat;
+      filterProducts();
     }
 
-    function removePosItem(btn, amount) {
-      btn.closest('tr').remove();
-      currentSubtotal = Math.max(0, currentSubtotal - amount);
-      recalculateTotals();
+    function filterProducts() {
+      const q = (document.getElementById('productSearchInput').value || '').toLowerCase();
+      const container = document.getElementById('productCardContainer');
+      container.innerHTML = '';
+
+      const filtered = appState.products.filter(p => {
+        const matchesQuery = p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+        if (!matchesQuery) return false;
+
+        if (currentProdCategory === 'all') return true;
+        if (currentProdCategory === 'low') return p.stock > 0 && p.stock < 10;
+        if (currentProdCategory === 'out') return p.stock <= 0;
+        return p.category === currentProdCategory;
+      });
+
+      document.getElementById('prodFilterCountLabel').textContent = `${filtered.length} products`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-muted);">
+            <i class="fa fa-box-open" style="font-size: 3rem; opacity: 0.3; margin-bottom: 12px;"></i>
+            <div style="font-weight: 700;">No matching products found</div>
+          </div>`;
+        return;
+      }
+
+      filtered.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'prod-card';
+        card.id = `prod-card-${p.id}`;
+
+        const isLow = p.stock > 0 && p.stock < 10;
+        const isOut = p.stock <= 0;
+        const stockColor = isOut ? 'hsl(0,84%,60%)' : isLow ? 'hsl(38,92%,50%)' : 'hsl(142,71%,45%)';
+        const percent = Math.min(100, Math.max(5, (p.stock / 100) * 100));
+
+        card.innerHTML = `
+          <div class="prod-header">
+            <div class="prod-icon">
+              <i class="fa ${p.icon || 'fa-box'}"></i>
+            </div>
+            <div class="prod-title-group">
+              <div class="prod-name">${p.name}</div>
+              <span class="prod-cat"><i class="fa fa-tag" style="font-size: 9px;"></i> ${p.category}</span>
+            </div>
+          </div>
+
+          <div class="prod-meta">
+            <div>
+              <div class="pm-label">UNIT PRICE</div>
+              <div class="pm-val" style="color: hsl(142, 71%, 45%);">${appState.currency}${p.price.toFixed(2)}</div>
+            </div>
+            <div>
+              <div class="pm-label">STOCK</div>
+              <div class="pm-val" style="color: ${stockColor};">${p.stock}</div>
+            </div>
+          </div>
+
+          <div class="stock-bar-wrap">
+            <div class="stock-bar-label">
+              <span>Stock Level</span>
+              <span style="color: ${stockColor}; font-weight: 800;">${p.stock} units</span>
+            </div>
+            <div class="stock-bar">
+              <div class="stock-bar-fill" style="width: ${percent}%; background: ${stockColor};"></div>
+            </div>
+          </div>
+
+          <div class="prod-actions">
+            <button class="p-btn" onclick="editProductPrompt(${p.id})">
+              <i class="fa fa-pen-to-square"></i> Edit
+            </button>
+            <button class="p-btn del" onclick="deleteProductAJAX(${p.id})">
+              <i class="fa fa-trash"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
     }
 
-    function recalculateTotals() {
-      const tax = currentSubtotal * 0.18;
-      const grand = currentSubtotal + tax;
+    function deleteProductAJAX(id) {
+      const card = document.getElementById(`prod-card-${id}`);
+      if (!card) return;
 
-      document.getElementById('posSubtotal').textContent = '$' + currentSubtotal.toFixed(2);
-      document.getElementById('posTax').textContent = '$' + tax.toFixed(2);
-      document.getElementById('posGrandTotal').textContent = '$' + grand.toFixed(2);
+      if (confirm('Delete this product from inventory? (Simulating AJAX instant delete)')) {
+        card.classList.add('fade-out-row');
+        setTimeout(() => {
+          appState.products = appState.products.filter(p => p.id !== id);
+          saveState();
+          renderProducts();
+          renderPOS();
+          renderDashboard();
+          showToast('Product deleted via AJAX (record removed)');
+        }, 400);
+      }
     }
 
-    // INVOICE PREVIEW MODAL
-    function openInvoicePreviewModal() {
-      const cust = document.getElementById('posCustName').value || 'Valued Customer';
-      const phone = document.getElementById('posCustPhone').value || 'N/A';
-      const invNum = document.getElementById('posInvNum').value;
+    function editProductPrompt(id) {
+      const p = appState.products.find(item => item.id === id);
+      if (!p) return;
+      const newPrice = prompt(`Update unit price for "${p.name}":`, p.price);
+      if (newPrice !== null && !isNaN(newPrice)) {
+        p.price = parseFloat(newPrice);
+        const newStock = prompt(`Update stock count:`, p.stock);
+        if (newStock !== null && !isNaN(newStock)) {
+          p.stock = parseInt(newStock);
+          saveState();
+          renderProducts();
+          renderPOS();
+          showToast(`Updated "${p.name}" details`);
+        }
+      }
+    }
 
-      document.getElementById('modalCustName').textContent = cust;
-      document.getElementById('modalCustPhone').textContent = phone;
-      document.getElementById('modalInvNumber').textContent = invNum;
+    /* ══════════════════════════════════════
+       SELL / POS BILLING LOGIC
+    ══════════════════════════════════════ */
+    let selectedPOSItems = {}; // { productId: qty }
+    let currentPOSCustomer = 1;
+    let currentPOSPaymentStatus = 'paid';
 
-      document.getElementById('modalSubtotal').textContent = document.getElementById('posSubtotal').textContent;
-      document.getElementById('modalTax').textContent = document.getElementById('posTax').textContent;
-      document.getElementById('modalGrandTotal').textContent = document.getElementById('posGrandTotal').textContent;
+    function renderPOS() {
+      // Customer selector dropdown
+      const sel = document.getElementById('sellCustomerSelect');
+      sel.innerHTML = '';
+      appState.customers.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.id;
+        opt.textContent = `${c.name} (${c.phone})`;
+        if (c.id === currentPOSCustomer) opt.selected = true;
+        sel.appendChild(opt);
+      });
+      updateCustomerHeaderCard();
 
-      // Copy items
-      const modalBody = document.getElementById('modalItemsBody');
-      modalBody.innerHTML = '';
-      document.querySelectorAll('#posItemsBody tr').forEach(r => {
-        const cols = r.querySelectorAll('td');
-        if (cols.length >= 4) {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${cols[0].textContent} (x${cols[1].textContent})</td>
-            <td style="text-align:right;">${cols[3].textContent}</td>
+      // Product Table
+      const tbody = document.getElementById('posProductTableBody');
+      tbody.innerHTML = '';
+
+      appState.products.forEach(p => {
+        const tr = document.createElement('tr');
+        const isChecked = !!selectedPOSItems[p.id];
+        const qty = selectedPOSItems[p.id] || 1;
+        const isOut = p.stock <= 0;
+
+        if (isChecked) tr.classList.add('selected');
+
+        tr.innerHTML = `
+          <td>
+            <input type="checkbox" class="product-checkbox" id="chk-${p.id}" ${isChecked ? 'checked' : ''} ${isOut ? 'disabled' : ''} onchange="togglePOSItem(${p.id}, this.checked)">
+          </td>
+          <td>
+            <div style="font-weight: 800;">${p.name}</div>
+            <div style="font-size: 11px; color: var(--text-muted); font-family: monospace;">SKU: BC-${p.id.toString().padStart(4, '0')}</div>
+          </td>
+          <td><span class="prod-cat">${p.category}</span></td>
+          <td style="font-weight: 800; color: hsl(142, 71%, 45%);">${appState.currency}${p.price.toFixed(2)}</td>
+          <td>
+            <span style="font-size: 12px; font-weight: 800; color: ${isOut ? 'hsl(0,84%,60%)' : p.stock < 10 ? 'hsl(38,92%,50%)' : 'var(--text)'};">
+              ${isOut ? 'Out of Stock' : `${p.stock} units`}
+            </span>
+          </td>
+          <td>
+            <input type="number" class="qty-input" id="qty-${p.id}" value="${qty}" min="1" max="${p.stock}" ${!isChecked || isOut ? 'disabled' : ''} oninput="updatePOSQty(${p.id}, this.value)">
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      calculatePOSTotals();
+    }
+
+    function onCustomerSelectChange(val) {
+      currentPOSCustomer = parseInt(val);
+      updateCustomerHeaderCard();
+    }
+
+    function updateCustomerHeaderCard() {
+      const c = appState.customers.find(item => item.id === currentPOSCustomer) || appState.customers[0];
+      if (c) {
+        document.getElementById('sellCustAvatar').textContent = c.name.charAt(0);
+        document.getElementById('sellCustName').textContent = c.name;
+        document.getElementById('sellCustPhone').textContent = c.phone;
+      }
+    }
+
+    function setPaymentMode(mode) {
+      currentPOSPaymentStatus = mode;
+      document.getElementById('optPaid').className = mode === 'paid' ? 'pay-option active-paid' : 'pay-option';
+      document.getElementById('optPending').className = mode === 'pending' ? 'pay-option active-pending' : 'pay-option';
+    }
+
+    function togglePOSItem(pid, checked) {
+      if (checked) {
+        selectedPOSItems[pid] = 1;
+      } else {
+        delete selectedPOSItems[pid];
+      }
+      renderPOS();
+    }
+
+    function updatePOSQty(pid, val) {
+      const qty = parseInt(val);
+      if (qty > 0) {
+        selectedPOSItems[pid] = qty;
+        calculatePOSTotals();
+      }
+    }
+
+    function calculatePOSTotals() {
+      const linesUl = document.getElementById('posSummaryLines');
+      linesUl.innerHTML = '';
+
+      let subtotal = 0;
+      const keys = Object.keys(selectedPOSItems);
+
+      if (keys.length === 0) {
+        linesUl.innerHTML = '<li style="color: var(--text-muted); justify-content: center; padding: 20px 0;">No items selected</li>';
+        document.getElementById('posSubtotal').textContent = `${appState.currency}0.00`;
+        document.getElementById('posTax').textContent = `${appState.currency}0.00`;
+        document.getElementById('posGrandTotal').textContent = `${appState.currency}0.00`;
+        return;
+      }
+
+      keys.forEach(pid => {
+        const p = appState.products.find(item => item.id == pid);
+        if (p) {
+          const qty = selectedPOSItems[pid];
+          const lineTotal = p.price * qty;
+          subtotal += lineTotal;
+
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <div>
+              <div class="osl-name">${p.name}</div>
+              <div class="osl-sub">${qty} × ${appState.currency}${p.price.toFixed(2)}</div>
+            </div>
+            <div class="osl-total">${appState.currency}${lineTotal.toFixed(2)}</div>
           `;
-          modalBody.appendChild(row);
+          linesUl.appendChild(li);
         }
       });
 
-      document.getElementById('invoiceModalBackdrop').classList.add('active');
+      const tax = (subtotal * appState.taxRate) / 100;
+      const grandTotal = subtotal + tax;
+
+      document.getElementById('posSubtotal').textContent = `${appState.currency}${subtotal.toFixed(2)}`;
+      document.getElementById('posTax').textContent = `${appState.currency}${tax.toFixed(2)}`;
+      document.getElementById('posGrandTotal').textContent = `${appState.currency}${grandTotal.toFixed(2)}`;
+    }
+
+    function completeSaleAndShowInvoice() {
+      const itemKeys = Object.keys(selectedPOSItems);
+      if (itemKeys.length === 0) {
+        alert('Please select at least one product to generate invoice.');
+        return;
+      }
+
+      const cust = appState.customers.find(c => c.id === currentPOSCustomer) || appState.customers[0];
+      const newOrderId = (1048 + appState.orders.length + 1).toString();
+
+      let subtotal = 0;
+      const soldItems = [];
+
+      itemKeys.forEach(pid => {
+        const p = appState.products.find(item => item.id == pid);
+        if (p) {
+          const qty = selectedPOSItems[pid];
+          p.stock = Math.max(0, p.stock - qty);
+          soldItems.push({ name: p.name, price: p.price, qty: qty, total: p.price * qty });
+          subtotal += p.price * qty;
+        }
+      });
+
+      const tax = (subtotal * appState.taxRate) / 100;
+      const grandTotal = subtotal + tax;
+
+      const newOrder = {
+        id: newOrderId,
+        customerId: cust.id,
+        customerName: cust.name,
+        customerPhone: cust.phone,
+        date: new Date().toISOString().split('T')[0],
+        total: grandTotal,
+        status: currentPOSPaymentStatus,
+        items: soldItems
+      };
+
+      appState.orders.unshift(newOrder);
+      cust.orders += 1;
+      cust.spent += grandTotal;
+
+      saveState();
+      renderDashboard();
+      renderProducts();
+      renderOrders();
+
+      // Reset selection
+      selectedPOSItems = {};
+      renderPOS();
+
+      showInvoiceModal(newOrder);
+      showToast(`Invoice #${newOrderId} generated successfully!`);
+    }
+
+    /* ══════════════════════════════════════
+       INVOICE MODAL LOGIC (From bill.html 1-to-1)
+    ══════════════════════════════════════ */
+    function showInvoiceForOrder(orderId) {
+      const order = appState.orders.find(o => o.id == orderId);
+      if (order) showInvoiceModal(order);
+    }
+
+    function showInvoiceModal(order) {
+      document.getElementById('invCompanyName').textContent = appState.businessName;
+      document.getElementById('invCompanyAddr').textContent = appState.address;
+      document.getElementById('invCompanyPhone').textContent = appState.phone;
+
+      document.getElementById('invCode').textContent = `INVOICE #${order.id}`;
+      document.getElementById('invDate').textContent = `Date: ${order.date}`;
+      document.getElementById('invStatus').textContent = `Status: ${order.status.toUpperCase()}`;
+      document.getElementById('invStatus').style.color = order.status === 'paid' ? '#16a34a' : '#ea580c';
+
+      document.getElementById('invCustomerName').textContent = order.customerName;
+      document.getElementById('invCustomerPhone').textContent = order.customerPhone;
+
+      const tbody = document.getElementById('invoiceItemsTableBody');
+      tbody.innerHTML = '';
+
+      let subtotal = 0;
+      order.items.forEach((item, idx) => {
+        const lineTotal = item.price * item.qty;
+        subtotal += lineTotal;
+        const tr = document.createElement('tr');
+        tr.style.borderBottom = '1px solid #f1f5f9';
+        tr.innerHTML = `
+          <td style="padding: 10px 12px; font-weight: 700; color: #64748b;">${(idx + 1).toString().padStart(2, '0')}</td>
+          <td style="padding: 10px 12px; font-weight: 800; color: #0f172a;">${item.name}</td>
+          <td style="padding: 10px 12px; text-align: right; color: #0f172a;">${appState.currency}${item.price.toFixed(2)}</td>
+          <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #0f172a;">${item.qty}</td>
+          <td style="padding: 10px 12px; text-align: right; font-weight: 800; color: #0f172a;">${appState.currency}${lineTotal.toFixed(2)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const tax = (subtotal * appState.taxRate) / 100;
+      const grandTotal = subtotal + tax;
+
+      document.getElementById('invModalSubtotal').textContent = `${appState.currency}${subtotal.toFixed(2)}`;
+      document.getElementById('invModalTaxRateLabel').textContent = `TAX ${appState.taxRate}%`;
+      document.getElementById('invModalTax').textContent = `${appState.currency}${tax.toFixed(2)}`;
+      document.getElementById('invModalGrandTotal').textContent = `${appState.currency}${grandTotal.toFixed(2)}`;
+
+      // WhatsApp link generator
+      const waBtn = document.getElementById('invoiceWhatsAppBtn');
+      const cleanPhone = (order.customerPhone || '').replace(/[^0-9]/g, '');
+      const msg = `Hello ${order.customerName}, your invoice #${order.id} from ${appState.businessName} totaling ${appState.currency}${grandTotal.toFixed(2)} is ready! Status: ${order.status.toUpperCase()}. Thank you!`;
+      waBtn.onclick = () => window.open(`https://api.whatsapp.com/send?phone=${cleanPhone}&text=${encodeURIComponent(msg)}`, '_blank');
+
+      document.getElementById('invoiceModal').classList.add('active');
     }
 
     function closeInvoiceModal() {
-      document.getElementById('invoiceModalBackdrop').classList.remove('active');
+      document.getElementById('invoiceModal').classList.remove('active');
     }
-    document.getElementById('invoiceModalBackdrop').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('invoiceModalBackdrop')) {
-        closeInvoiceModal();
+
+    /* ══════════════════════════════════════
+       CUSTOMERS VIEW
+    ══════════════════════════════════════ */
+    function renderCustomers() {
+      const container = document.getElementById('customerContainer');
+      container.innerHTML = '';
+
+      appState.customers.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'cust-card';
+        card.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
+            <div class="cust-avatar">${c.name.charAt(0)}</div>
+            <div>
+              <div style="font-weight: 800; font-size: 15px;">${c.name}</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-top: 3px;">
+                <i class="fa fa-phone" style="font-size: 11px;"></i> ${c.phone}
+              </div>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: var(--bg2); padding: 12px; border-radius: 12px;">
+            <div>
+              <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">ORDERS</div>
+              <div style="font-size: 16px; font-weight: 800;">${c.orders}</div>
+            </div>
+            <div>
+              <div style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--text-muted);">TOTAL SPENT</div>
+              <div style="font-size: 16px; font-weight: 800; color: hsl(142, 71%, 45%);">${appState.currency}${c.spent.toLocaleString()}</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: auto;">
+            <button class="btn btn-primary btn-sm" style="flex: 1;" onclick="startSaleForCustomer(${c.id})">
+              <i class="fa fa-cart-plus"></i> Sell
+            </button>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Customer record updated')">
+              <i class="fa fa-pen"></i>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function startSaleForCustomer(cid) {
+      currentPOSCustomer = cid;
+      switchView('sell');
+      renderPOS();
+    }
+
+    /* ══════════════════════════════════════
+       VENDORS VIEW
+    ══════════════════════════════════════ */
+    function renderVendors() {
+      const container = document.getElementById('vendorContainer');
+      container.innerHTML = '';
+
+      appState.vendors.forEach(v => {
+        const card = document.createElement('div');
+        card.className = 'cust-card';
+        card.innerHTML = `
+          <div style="display: flex; align-items: center; gap: 14px; padding-bottom: 14px; border-bottom: 1px solid var(--border);">
+            <div class="cust-avatar" style="background: linear-gradient(135deg, hsl(248, 85%, 65%), hsl(199, 89%, 48%));">
+              <i class="fa fa-truck-field" style="font-size: 18px;"></i>
+            </div>
+            <div>
+              <div style="font-weight: 800; font-size: 15px;">${v.name}</div>
+              <span class="prod-cat" style="margin-top: 4px;">${v.cat}</span>
+            </div>
+          </div>
+
+          <div style="font-size: 12.5px; display: flex; flex-direction: column; gap: 6px; color: var(--text-muted);">
+            <div><i class="fa fa-user" style="width: 18px;"></i> ${v.contact}</div>
+            <div><i class="fa fa-phone" style="width: 18px;"></i> ${v.phone}</div>
+            <div><i class="fa fa-envelope" style="width: 18px;"></i> ${v.email}</div>
+          </div>
+
+          <div style="display: flex; gap: 8px; margin-top: auto;">
+            <button class="btn btn-outline btn-sm" style="flex: 1;" onclick="showToast('Contacting vendor ${v.name}...')">
+              <i class="fa fa-envelope"></i> Message
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* ══════════════════════════════════════
+       ORDERS VIEW
+    ══════════════════════════════════════ */
+    function renderOrders() {
+      const totalRev = appState.orders.reduce((acc, o) => acc + o.total, 0);
+      const paidCnt = appState.orders.filter(o => o.status === 'paid').length;
+      const pendCnt = appState.orders.filter(o => o.status !== 'paid').length;
+
+      document.getElementById('ordTotalCount').textContent = appState.orders.length;
+      document.getElementById('ordTotalRev').textContent = `${appState.currency}${Math.round(totalRev).toLocaleString()}`;
+      document.getElementById('ordPaidCount').textContent = paidCnt;
+      document.getElementById('ordPendingCount').textContent = pendCnt;
+
+      const tbody = document.getElementById('ordersFullTableBody');
+      tbody.innerHTML = '';
+
+      appState.orders.forEach(o => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight: 800; font-family: monospace; color: var(--primary);">#${o.id}</td>
+          <td style="font-weight: 700;">${o.customerName}</td>
+          <td style="color: var(--text-muted); font-size: 12px;">${o.customerPhone || '—'}</td>
+          <td style="color: var(--text-muted); font-size: 12px;">${o.date}</td>
+          <td style="font-weight: 800;">${appState.currency}${o.total.toLocaleString()}</td>
+          <td>
+            <span style="display:inline-flex; align-items:center; gap:5px; font-size:11px; font-weight:800; padding:3px 10px; border-radius:20px; 
+              ${o.status === 'paid' ? 'background: hsla(142,71%,45%,0.15); color: hsl(142,71%,45%); border:1px solid hsla(142,71%,45%,0.3);' : 'background: hsla(38,92%,50%,0.15); color: hsl(38,92%,50%); border:1px solid hsla(38,92%,50%,0.3);'}">
+              <i class="fa ${o.status === 'paid' ? 'fa-check' : 'fa-clock'}"></i> ${o.status.toUpperCase()}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-outline btn-sm" onclick="showInvoiceForOrder('${o.id}')">
+              <i class="fa fa-file-invoice"></i> View Bill
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    /* ══════════════════════════════════════
+       GENERIC MODAL (ADD PRODUCT / CUSTOMER / VENDOR)
+    ══════════════════════════════════════ */
+    function openGenericModal(type) {
+      const modal = document.getElementById('genericModal');
+      const title = document.getElementById('genModalTitle');
+      const body = document.getElementById('genModalBody');
+
+      if (type === 'product') {
+        title.innerHTML = '<i class="fa fa-boxes-stacked" style="color: var(--primary); margin-right: 8px;"></i> Add New Product';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" id="inpProdName" class="form-control" placeholder="e.g. 10G SFP+ Optical Transceiver">
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="inpProdCat" class="form-control">
+              <option value="Electronics">Electronics</option>
+              <option value="Networking">Networking</option>
+              <option value="Beverages">Beverages</option>
+              <option value="Hardware">Hardware</option>
+            </select>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div class="form-group">
+              <label>Unit Price (${appState.currency})</label>
+              <input type="number" id="inpProdPrice" class="form-control" placeholder="0.00" step="0.5">
+            </div>
+            <div class="form-group">
+              <label>Stock Quantity</label>
+              <input type="number" id="inpProdStock" class="form-control" placeholder="10">
+            </div>
+          </div>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="saveNewProduct()">
+            <i class="fa fa-check"></i> Add to Inventory
+          </button>
+        `;
+      } else if (type === 'customer') {
+        title.innerHTML = '<i class="fa fa-users" style="color: var(--success); margin-right: 8px;"></i> Add Customer';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Full Customer / Company Name</label>
+            <input type="text" id="inpCustName" class="form-control" placeholder="e.g. Zenith Solutions">
+          </div>
+          <div class="form-group">
+            <label>Phone Number / WhatsApp</label>
+            <input type="text" id="inpCustPhone" class="form-control" placeholder="+1 (555) 000-0000">
+          </div>
+          <button class="btn btn-success" style="width: 100%; margin-top: 10px;" onclick="saveNewCustomer()">
+            <i class="fa fa-check"></i> Register Customer
+          </button>
+        `;
+      } else if (type === 'vendor') {
+        title.innerHTML = '<i class="fa fa-truck-field" style="color: var(--primary); margin-right: 8px;"></i> Add Vendor';
+        body.innerHTML = `
+          <div class="form-group">
+            <label>Vendor Business Name</label>
+            <input type="text" id="inpVendName" class="form-control" placeholder="e.g. Global Tech Distributors">
+          </div>
+          <div class="form-group">
+            <label>Primary Contact</label>
+            <input type="text" id="inpVendContact" class="form-control" placeholder="Contact Person">
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="text" id="inpVendPhone" class="form-control" placeholder="+1 (800) 000-0000">
+          </div>
+          <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="saveNewVendor()">
+            <i class="fa fa-check"></i> Add Vendor
+          </button>
+        `;
       }
-    });
 
-    // WHATSAPP DISPATCH SIMULATOR
-    function dispatchWhatsAppInvoice() {
-      const phone = document.getElementById('posCustPhone').value.replace(/[^0-9]/g, '');
-      const cust = document.getElementById('posCustName').value;
-      const invNum = document.getElementById('posInvNum').value;
-      const total = document.getElementById('posGrandTotal').textContent;
-
-      const message = encodeURIComponent(`Hello ${cust},\nYour invoice ${invNum} for ${total} has been generated by Billcraft.\nThank you for your business!`);
-      const waUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${message}`;
-
-      window.open(waUrl, '_blank');
+      modal.classList.add('active');
     }
+
+    function closeGenericModal() {
+      document.getElementById('genericModal').classList.remove('active');
+    }
+
+    function saveNewProduct() {
+      const name = document.getElementById('inpProdName').value.trim();
+      const cat = document.getElementById('inpProdCat').value;
+      const price = parseFloat(document.getElementById('inpProdPrice').value);
+      const stock = parseInt(document.getElementById('inpProdStock').value);
+
+      if (!name || isNaN(price) || isNaN(stock)) {
+        alert('Please fill out all product fields properly.');
+        return;
+      }
+
+      const newId = appState.products.length ? Math.max(...appState.products.map(p => p.id)) + 1 : 1;
+      appState.products.unshift({
+        id: newId,
+        name: name,
+        category: cat,
+        price: price,
+        stock: stock,
+        icon: cat === 'Networking' ? 'fa-network-wired' : cat === 'Beverages' ? 'fa-bottle-water' : 'fa-box'
+      });
+
+      saveState();
+      closeGenericModal();
+      renderProducts();
+      renderPOS();
+      renderDashboard();
+      showToast(`Product "${name}" added to inventory`);
+    }
+
+    function saveNewCustomer() {
+      const name = document.getElementById('inpCustName').value.trim();
+      const phone = document.getElementById('inpCustPhone').value.trim();
+      if (!name) { alert('Please enter customer name'); return; }
+
+      const newId = appState.customers.length ? Math.max(...appState.customers.map(c => c.id)) + 1 : 1;
+      appState.customers.push({ id: newId, name: name, phone: phone || '+1 (555) 000-0000', orders: 0, spent: 0 });
+
+      saveState();
+      closeGenericModal();
+      renderCustomers();
+      renderPOS();
+      renderDashboard();
+      showToast(`Customer "${name}" created`);
+    }
+
+    function saveNewVendor() {
+      const name = document.getElementById('inpVendName').value.trim();
+      const contact = document.getElementById('inpVendContact').value.trim();
+      const phone = document.getElementById('inpVendPhone').value.trim();
+      if (!name) { alert('Please enter vendor name'); return; }
+
+      const newId = appState.vendors.length ? Math.max(...appState.vendors.map(v => v.id)) + 1 : 1;
+      appState.vendors.push({ id: newId, name: name, contact: contact || 'Manager', phone: phone || '+1 (800) 000-0000', email: 'vendor@supplier.com', cat: 'Electronics' });
+
+      saveState();
+      closeGenericModal();
+      renderVendors();
+      renderDashboard();
+      showToast(`Vendor "${name}" created`);
+    }
+
+    /* ══════════════════════════════════════
+       SETTINGS
+    ══════════════════════════════════════ */
+    function saveSettings() {
+      appState.businessName = document.getElementById('cfgBusinessName').value;
+      appState.address = document.getElementById('cfgAddress').value;
+      appState.phone = document.getElementById('cfgPhone').value;
+      appState.currency = document.getElementById('cfgCurrency').value;
+      appState.taxRate = parseFloat(document.getElementById('cfgTaxRate').value) || 18;
+
+      saveState();
+      initAll();
+      showToast('Settings saved successfully!');
+    }
+
+    /* ══════════════════════════════════════
+       TOAST NOTIFICATION
+    ══════════════════════════════════════ */
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('appToast');
+      document.getElementById('toastText').textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    /* ══════════════════════════════════════
+       INITIALIZATION
+    ══════════════════════════════════════ */
+    function initAll() {
+      applyTheme();
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('dateText').textContent = dateStr;
+      document.getElementById('dashboardSubDate').textContent = dateStr;
+
+      // Populate settings form
+      if (document.getElementById('cfgBusinessName')) {
+        document.getElementById('cfgBusinessName').value = appState.businessName;
+        document.getElementById('cfgAddress').value = appState.address;
+        document.getElementById('cfgPhone').value = appState.phone;
+        document.getElementById('cfgCurrency').value = appState.currency;
+        document.getElementById('cfgTaxRate').value = appState.taxRate;
+      }
+
+      renderDashboard();
+      renderProducts();
+      renderPOS();
+      renderCustomers();
+      renderVendors();
+      renderOrders();
+    }
+
+    window.addEventListener('DOMContentLoaded', initAll);
   </script>
 </body>
 </html>
