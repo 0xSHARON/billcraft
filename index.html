@@ -1293,22 +1293,230 @@
       border-color: var(--primary);
     }
 
-    /* RESPONSIVE TOGGLES */
+    /* ══════════════════════════════════════
+       RESPONSIVE MOBILE STYLES & DRAWER
+    ══════════════════════════════════════ */
+    .sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      top: 34px;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      z-index: 1045;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
+    }
+    .sidebar-backdrop.open {
+      display: block;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .sidebar-brand-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid hsla(215, 28%, 18%, 0.6);
+    }
+    .sidebar-brand-wrapper .sidebar-brand {
+      border-bottom: none !important;
+      flex: 1;
+    }
+    .sidebar-close-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid hsla(215, 28%, 25%, 0.6);
+      color: var(--sidebar-text);
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      align-items: center;
+      justify-content: center;
+      margin-right: 14px;
+      transition: all 0.2s ease;
+    }
+    .sidebar-close-btn:hover {
+      color: white;
+      background: hsla(215, 28%, 30%, 0.4);
+    }
+
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      display: block;
+    }
+
     @media (max-width: 900px) {
       .sidebar {
         transform: translateX(-100%);
+        top: 34px;
+        height: calc(100vh - 34px);
+        box-shadow: 12px 0 32px rgba(0,0,0,0.65);
       }
       .sidebar.open {
         transform: translateX(0);
       }
-      .navbar-top {
-        left: 0;
+      .sidebar-close-btn {
+        display: inline-flex;
       }
-      #page-wrapper {
-        margin-left: 0 !important;
+      .navbar-top {
+        left: 0 !important;
+        top: 34px;
+        height: 56px;
+        padding: 0 14px !important;
+      }
+      .topbar-date {
+        display: none !important;
+      }
+      .topbar-user-name {
+        display: none !important;
+      }
+      .topbar-user {
+        padding: 4px;
+        border-radius: 50%;
+      }
+      .topbar-page-title {
+        font-size: 14px;
+        gap: 6px;
+      }
+      .topbar-page-title i {
+        font-size: 15px;
       }
       .sidebar-mobile-toggle {
         display: inline-flex;
+      }
+      #page-wrapper {
+        margin-left: 0 !important;
+        padding: calc(56px + 34px + 14px) 14px 40px !important;
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      .sell-layout {
+        grid-template-columns: 1fr !important;
+        gap: 18px;
+      }
+      .sell-sidebar {
+        position: static !important;
+        top: auto !important;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .demo-ribbon {
+        height: 34px;
+        padding: 0 10px;
+        gap: 6px;
+      }
+      .demo-ribbon-left span:not(.demo-pill) {
+        display: none;
+      }
+      .demo-ribbon-right .demo-ribbon-link {
+        display: none;
+      }
+      .demo-pill {
+        font-size: 9.5px;
+        padding: 2px 6px;
+      }
+      .demo-reset-btn {
+        font-size: 10px;
+        padding: 2px 8px;
+      }
+      .page-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        margin-bottom: 1.2rem !important;
+      }
+      .page-header > div:last-child {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        width: 100%;
+      }
+      .page-header .btn {
+        flex: 1 1 auto;
+        justify-content: center;
+        text-align: center;
+      }
+      .invoice-modal-backdrop {
+        padding: 8px;
+      }
+      .invoice-modal-window {
+        max-width: 100%;
+        border-radius: 12px;
+      }
+      .invoice-modal-toolbar {
+        padding: 10px 14px;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .invoice-modal-toolbar > div {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+      }
+      .invoice-modal-toolbar .btn {
+        flex: 1;
+        justify-content: center;
+        font-size: 12px;
+      }
+      .invoice-modal-body {
+        padding: 16px 12px;
+        max-height: 80vh;
+      }
+      .generic-modal-backdrop {
+        padding: 10px;
+      }
+      .generic-modal-box {
+        padding: 18px 14px;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 14px;
+      }
+    }
+
+    @media (max-width: 580px) {
+      .card-modern {
+        padding: 16px 14px;
+      }
+      .dash-stat-num {
+        font-size: 1.8rem;
+      }
+      .prod-header-bar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .prod-filters {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+      }
+      .prod-chip {
+        flex-shrink: 0;
+      }
+      .pt-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 14px 16px;
+      }
+      .pt-header input {
+        width: 100% !important;
+      }
+      .toast-msg {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
+        justify-content: center;
       }
     }
   </style>
@@ -1328,26 +1536,31 @@
       <a href="https://github.com/0xSHARON/billcraft" target="_blank" class="demo-ribbon-link">
         <i class="fa-brands fa-github"></i> 0xSHARON/billcraft
       </a>
-      <a href="https://0xsharon.github.io/" target="_blank" class="demo-ribbon-link">
-        <i class="fa fa-arrow-up-right-from-square"></i> Sharon Babu Portfolio
+      <a href="https://0xsharon.github.io/cybermanagement" target="_blank" class="demo-ribbon-link">
+        <i class="fa fa-arrow-up-right-from-square"></i> CYBERSECURITY MANAGEMNT BOOK
       </a>
     </div>
   </div>
 
   <div id="wrapper">
+    <!-- Backdrop for mobile drawer -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
 
     <!-- ══════════════════════════════════════
          SIDEBAR (From includes/header.php)
     ══════════════════════════════════════ -->
     <nav class="sidebar" id="appSidebar">
-      <a href="javascript:void(0)" onclick="switchView('dashboard')" class="sidebar-brand">
-        <div class="sidebar-logo">
-          <img src="logo.png" alt="Billcraft Logo" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/0xSHARON/billcraft/main/logo.png';">
-        </div>
-        <div class="sidebar-brand-name">
-          BILL<span>CRAFT</span>
-        </div>
-      </a>
+      <div class="sidebar-brand-wrapper">
+        <a href="javascript:void(0)" onclick="switchView('dashboard')" class="sidebar-brand">
+          <div class="sidebar-logo">
+            <img src="logo.png" alt="Billcraft Logo" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/0xSHARON/billcraft/main/logo.png';">
+          </div>
+          <div class="sidebar-brand-name">
+            BILL<span>CRAFT</span>
+          </div>
+        </a>
+        <button class="sidebar-close-btn" onclick="closeSidebar()" aria-label="Close Sidebar"><i class="fa fa-xmark"></i></button>
+      </div>
 
       <div class="sidebar-nav">
         <div class="nav-section-label">MAIN MENU</div>
@@ -2189,11 +2402,22 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
       // Close mobile sidebar if open
-      document.getElementById('appSidebar').classList.remove('open');
+      closeSidebar();
     }
 
     function toggleMobileSidebar() {
-      document.getElementById('appSidebar').classList.toggle('open');
+      const sb = document.getElementById('appSidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (!sb) return;
+      const isOpen = sb.classList.toggle('open');
+      if (bd) bd.classList.toggle('open', isOpen);
+    }
+
+    function closeSidebar() {
+      const sb = document.getElementById('appSidebar');
+      const bd = document.getElementById('sidebarBackdrop');
+      if (sb) sb.classList.remove('open');
+      if (bd) bd.classList.remove('open');
     }
 
     /* ══════════════════════════════════════
